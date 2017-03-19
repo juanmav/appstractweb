@@ -1,0 +1,18 @@
+<!-- Header -->
+<md-toolbar layout="row">
+    <div class="md-toolbar-tools" >
+
+        <md-button aria-label="menu" ng-click="$ctrl.open()" class="md-icon-button">
+            <md-icon md-svg-icon="menu"></md-icon>
+        </md-button>
+
+        <label flex>{{ header.title }}</label>
+        <div layout="row" layout-align="space-between center">
+            <div layout="column" layout-align="center end">
+                <label class="md-subhead" style="margin-right: 10px">{{ user.displayName }}</label>
+                <label class="md-subhead" style="margin-right: 10px">{{ user.email }}</label>
+            </div>
+            <img ng-src="{{ user.photoURL }}" style="height: 50px; border-radius: 50%;" />
+        </div>
+    </div>
+</md-toolbar>

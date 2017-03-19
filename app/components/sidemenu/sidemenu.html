@@ -1,0 +1,40 @@
+<md-sidenav layout="column" class="md-sidenav-left md-whiteframe-z2" md-component-id="leftMenu" md-is-locked-open="$mdMedia('')">
+        <md-toolbar class="header">
+            <h1 class="md-toolbar-tools">Menu</h1>
+        </md-toolbar>
+
+        <!-- Users -->
+        <md-button class="md-block" layout="row" layout-align="start center" ng-click="$ctrl.goToView('/users')">
+            <md-icon md-svg-icon="account-multiple"></md-icon>
+            <span flex></span>
+            Users
+            <span flex></span>
+        </md-button>
+
+        <!-- Orders -->
+        <md-button class="md-block" layout="row" layout-align="start center" ng-click="$ctrl.goToView('/orders')" >
+            <md-icon md-svg-icon="format-list-checks"></md-icon>
+            <span flex></span>
+            Orders
+            <span flex></span>
+        </md-button>
+
+        <!-- Celebrities -->
+        <md-button class="md-block" layout="row" layout-align="start center" ng-click="$ctrl.goToView('/celebrities')" >
+            <md-icon md-svg-icon="face"></md-icon>
+            <span flex></span>
+            Celebrities
+            <span flex></span>
+        </md-button>
+
+
+
+        <!-- Logout -->
+        <md-button class="md-block" layout="row" layout-align="start center" ng-click="$ctrl.logOut()" >
+            <md-icon md-svg-icon="logout"></md-icon>
+            <span flex></span>
+            Logout
+            <span flex></span>
+        </md-button>
+
+</md-sidenav>
