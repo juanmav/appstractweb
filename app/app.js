@@ -6,6 +6,7 @@ angular.module('myApp', [
     // External dependencies
     'ngRoute',
     'ngMaterial',
+    'md.data.table',
 
     // Views & components
     'myApp.version',
@@ -13,7 +14,10 @@ angular.module('myApp', [
     'myApp.sidemenu',
     'myApp.orders',
     'myApp.users',
-    'myApp.celebrities'
+    'myApp.celebrities',
+
+    // Services
+    'firebase',
 ])
     .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
         console.log('Router Config');
