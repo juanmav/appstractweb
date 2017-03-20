@@ -1,1 +1,27 @@
-<p>Aca va el formulario</p>
+<md-toolbar>
+    <div class="md-toolbar-tools">
+        <h2>Order {{$ctrl.item ? $ctrl.item.order_id : 'Creation' }}</h2>
+        <span flex></span>
+        <md-button aria-label="cancel" ng-click="$ctrl.cancel()" class="md-icon-button">
+            <md-icon md-svg-icon="close"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-dialog-content>
+    <md-content class="md-padding">
+        <p> Formlario aca!</p>
+
+        <div> {{$ctrl.item.order_id}}</div>
+    </md-content>
+</md-dialog-content>
+
+<md-dialog-actions layout="row">
+    <span flex></span>
+    <md-button ng-click="$ctrl.save()">
+        Save
+    </md-button>
+    <md-button ng-click="$ctrl.cancel()">
+        Cancel
+    </md-button>
+</md-dialog-actions>

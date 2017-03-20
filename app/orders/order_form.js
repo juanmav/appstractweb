@@ -1,20 +1,24 @@
 angular.module('myApp.orders')
     .component('orderForm', {
         templateUrl: 'orders/order_form.html',
-        controller: ordersFormCtrl
+        controller: ordersFormCtrl,
+        bindings: {
+            item: '='
+        }
     });
 
 
 // https://material.angularjs.org/latest/demo/dialog
-function ordersFormCtrl() {
+function ordersFormCtrl($mdDialog) {
     console.log('Order form!');
 
-
     this.cancel = function() {
+        console.log('cancelo');
         $mdDialog.cancel();
     };
 
-    this.answer = function(answer) {
-        $mdDialog.hide(answer);
+    this.save = function() {
+        console.log('Salvo');
+        $mdDialog.cancel();
     };
 }

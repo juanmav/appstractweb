@@ -13,8 +13,6 @@ angular.module('myApp.orders', ['ngRoute'])
     });
 
 function ordersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
-    console.log('ordersCtrl!!');
-
     this.selected = [];
 
     this.query = {
@@ -69,26 +67,32 @@ function ordersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
         order.celebrities = order.celebrities[Object.keys(order.celebrities)[0]];
         order.celebrities.name = order.celebrities.first_name + ' ' + order.celebrities.last_name;
         return order;
-    };
-    
+    }
+
 
     this.edit = function(){
-        console.log('Edicion Implementame')
+        $mdDialog.show({
+            template: '<order-form item="item"></order-form>',
+            locals : { item: this.selected[0] },
+            controller: function (item, $scope) {
+                $scope.item = item;
+            }
+        })
+            .then(() => {
+                this.getItems()
+            });
     };
 
     this.add = function () {
-        console.log('Nuevo Implementame')
+        console.log('Nuevo Implementame');
         $mdDialog.show({
-            template: '<order-form></order-form>',
+            template: '<order-form ></order-form>',
         })
-            .then(function(answer) {
-                $scope.status = 'You said the information was "' + answer + '".';
-            }, function() {
-                $scope.status = 'You cancelled the dialog.';
+            .then(() => {
+                this.getItems()
             });
-
     };
-    
+
     this.remove = function () {
         console.log('Eleminiacion Implementame')
     }
