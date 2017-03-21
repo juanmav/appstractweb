@@ -1,0 +1,59 @@
+<md-toolbar>
+  <div class="md-toolbar-tools">
+    <h2>Celebrity {{$ctrl.item ? $ctrl.item.name : 'Creation' }}</h2>
+    <span flex></span>
+    <md-button aria-label="cancel" ng-click="$ctrl.cancel()" class="md-icon-button">
+      <md-icon md-svg-icon="close"></md-icon>
+    </md-button>
+  </div>
+</md-toolbar>
+
+<md-dialog-content>
+  <md-content layout="column" class="md-padding" layout-align="space-between center">
+
+    <md-content layout="row" layout-align="space-between center">
+      <div layout="column" layout-align="center center">
+        <img ng-src="{{$ctrl.item.profile_pic}}" style="width: 100px;">
+        <md-button>Change pic</md-button>
+      </div>
+
+      <md-input-container >
+        <label>First Name</label>
+        <input ng-model="$ctrl.item.first_name">
+      </md-input-container>
+      <md-input-container >
+        <label>Last Name</label>
+        <input ng-model="$ctrl.item.last_name">
+      </md-input-container>
+    </md-content>
+
+    <md-input-container  style="width: 90%">
+      <label>Type</label>
+      <input ng-model="$ctrl.item.type">
+    </md-input-container>
+
+    <div style="width: 90%">
+      <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
+      <br /><br />
+      <md-checkbox ng-repeat="product in $ctrl.item.product_types" aria-label="Checkbox 1">
+        {{product.product_type}}
+      </md-checkbox>
+    </div>
+
+    <md-input-container  style="width: 90%">
+      <label>Bio</label>
+      <textarea ng-model="$ctrl.item.bio" rows="2">
+      </md-input-container>
+
+    </md-content>
+  </md-dialog-content>
+
+  <md-dialog-actions layout="row">
+    <span flex></span>
+    <!--md-button ng-click="$ctrl.save()">
+    Save
+  </md-button-->
+  <md-button ng-click="$ctrl.cancel()">
+    Cancel
+  </md-button>
+</md-dialog-actions>
