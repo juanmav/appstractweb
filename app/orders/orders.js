@@ -69,7 +69,6 @@ function ordersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
         return order;
     }
 
-
     this.edit = function(){
         $mdDialog.show({
             template: '<order-form item="item"></order-form>',
@@ -86,7 +85,7 @@ function ordersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
     this.add = function () {
         console.log('Nuevo Implementame');
         $mdDialog.show({
-            template: '<order-form ></order-form>',
+            template: '<order-form></order-form>',
         })
             .then(() => {
                 this.getItems()

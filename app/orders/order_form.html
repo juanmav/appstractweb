@@ -9,18 +9,54 @@
 </md-toolbar>
 
 <md-dialog-content>
-    <md-content class="md-padding">
-        <p> Formlario aca!</p>
+    <md-content class="md-padding" layout="row" style="overflow-x: hidden;">
 
-        <div> {{$ctrl.item.order_id}}</div>
+        <md-content layout="column" style="overflow-x: hidden;">
+            <md-input-container>
+                <label>User Name</label>
+                <input ng-model="$ctrl.item.user.name">
+            </md-input-container>
+            <md-input-container>
+                <label>Recipient Name</label>
+                <input ng-model="$ctrl.item.recipient.name">
+            </md-input-container>
+            <md-input-container>
+                <label>Recipient Email</label>
+                <input ng-model="$ctrl.item.recipient.email">
+            </md-input-container>
+        </md-content>
+        <md-content layout="column" style="overflow-x: hidden;">
+            <md-input-container>
+                <label>Recipient Message</label>
+                <input ng-model="$ctrl.item.recipient.message">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Celebrity Name</label>
+                <input ng-model="$ctrl.item.celebrities.name">
+            </md-input-container>
+
+            <md-input-container>
+                <label>Video Url</label>
+                <input ng-model="$ctrl.item.video_url">
+            </md-input-container>
+        </md-content>
+
+        <md-content layout="column" style="overflow-x: hidden;">
+            <md-input-container>
+                <label>Due Date</label>
+                <md-datepicker ng-model="$ctrl.item.dt_duedate"></md-datepicker>
+            </md-input-container>
+        </md-content>
+
     </md-content>
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
     <span flex></span>
-    <md-button ng-click="$ctrl.save()">
+    <!--<md-button ng-click="$ctrl.save()">
         Save
-    </md-button>
+    </md-button>-->
     <md-button ng-click="$ctrl.cancel()">
         Cancel
     </md-button>
