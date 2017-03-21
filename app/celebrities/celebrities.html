@@ -1,1 +1,79 @@
-<p>Celebrities</p>
+<!-- Header Tabla -->
+<md-toolbar class="md-table-toolbar md-default" ng-if="!($ctrl.selected.length || $ctrl.filter.show) ">
+    <div class="md-toolbar-tools">
+        <h2 class="md-title">Celebrities</h2>
+        <div flex></div>
+        <md-button aria-label="filter-variant" ng-click="$ctrl.filter.show = true" class="md-icon-button">
+            <md-icon style="fill: grey;"md-svg-icon="filter-variant"></md-icon>
+        </md-button>
+        <!--md-button aria-label="plus" ng-click="$ctrl.add()" class="md-icon-button">
+            <md-icon style="fill: grey;"md-svg-icon="plus"></md-icon>
+        </md-button-->
+    </div>
+</md-toolbar>
+
+<md-toolbar class="md-table-toolbar md-default" ng-if="$ctrl.selected.length">
+    <div class="md-toolbar-tools">
+        <h2 class="md-title">Item seleccionado: {{$ctrl.selected[0].celebrity_id}}</h2>
+        <div flex></div>
+        <md-button aria-label="delete" ng-click="$ctrl.edit()" class="md-icon-button">
+            <md-icon style="fill: grey;"md-svg-icon="pencil"></md-icon>
+        </md-button>
+        <md-button aria-label="delete" ng-click="$ctrl.remove()" class="md-icon-button">
+            <md-icon style="fill: grey;"md-svg-icon="delete"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<md-toolbar class="md-table-toolbar md-default" ng-show="$ctrl.filter.show && !$ctrl.selected.length">
+    <div class="md-toolbar-tools" layout="row" layout-align="center center">
+        <md-input-container class="md-icon-float md-block" flex="70" style="margin-top: 30px;">
+            <md-icon style="fill: grey;" md-svg-icon="magnify"></md-icon>
+            <input
+                    aria-label="filter"
+                    ng-model="$ctrl.query.filter"
+                    ng-model-options="{ debounce: 500 }"
+            >
+        </md-input-container>
+        <div flex></div>
+        <md-button aria-label="delete" ng-click="$ctrl.removeFilter()" class="md-icon-button">
+            <md-icon style="fill: grey;" md-svg-icon="close"></md-icon>
+        </md-button>
+    </div>
+</md-toolbar>
+
+<!-- Grilla tabla -->
+<md-table-container>
+    <table md-table md-row-select ng-model="$ctrl.selected" md-progress="$ctrl.promise">
+        <thead md-head md-order="$ctrl.query.celebrity" md-on-reorder="$ctrl.getItems">
+        <tr md-row>
+            <th md-column>Id</th>
+            <th md-column><span>Name</span></th>
+            <th md-column><span>Type</span></th>
+            <th md-column><span>Products</span></th>
+        </tr>
+        </thead>
+        <tbody md-body>
+        <tr md-row
+            md-select="item"
+            md-select-id="id"
+            md-auto-select
+            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit"
+        >
+            <td md-cell>{{item.celebrity_id}}</td>
+            <td md-cell>{{item.name}}</td>
+            <td md-cell>{{item.type}}</td>
+            <td md-cell>{{item.products}}</td>
+        </tr>
+        </tbody>
+    </table>
+</md-table-container>
+
+<md-table-pagination
+        md-limit="$ctrl.query.limit"
+        md-limit-options="[5, 10, 15]"
+        md-page="$ctrl.query.page"
+        md-total="{{$ctrl.items.length}}"
+        md-on-paginate="$ctrl.getItems" md-page-select>
+
+</md-table-pagination>
