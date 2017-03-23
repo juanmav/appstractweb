@@ -3,13 +3,13 @@ angular.module('myApp.users')
         templateUrl: 'celebrities/celebrity_form.html',
         controller: celebritiesFormCtrl,
         bindings: {
-            item: '<'
+            item: '='
         }
     });
 
 
 // https://material.angularjs.org/latest/demo/dialog
-function celebritiesFormCtrl($mdDialog) {
+function celebritiesFormCtrl($mdDialog, $firebaseObject, firebase) {
     console.log('Celebrity form!');
 
     this.cancel = function() {
@@ -18,7 +18,18 @@ function celebritiesFormCtrl($mdDialog) {
     };
 
     this.save = function() {
-        console.log('Salvo');
+
+      /*var ref = firebase.database().ref().child('celebrities/' + this.item.celebrity_id);
+      var celebrity = $firebaseObject(ref);
+
+      celebrity.$save()
+         .then(result => {
+              console.log('Celebrity saved on Firebase');
+          })
+          .catch( e => {
+              console.error(e);
+          })*/
+
         $mdDialog.cancel();
     };
 }
