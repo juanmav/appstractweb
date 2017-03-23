@@ -12,7 +12,7 @@ angular.module('myApp.orders', ['ngRoute'])
         controller: ordersCtrl
     });
 
-function ordersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
+function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
     this.selected = [];
 
     this.query = {
@@ -94,5 +94,10 @@ function ordersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
 
     this.remove = function () {
         console.log('Eleminiacion Implementame')
-    }
+    };
+
+    $rootScope.$on('orderUpdated', () => {
+        this.getItems();
+    })
+
 }

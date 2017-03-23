@@ -1,6 +1,6 @@
 <md-toolbar>
     <div class="md-toolbar-tools">
-        <h2>Order {{$ctrl.item ? $ctrl.item.order_id : 'Creation' }}</h2>
+        <h2>Order {{$ctrl.item ? $ctrl.item.order_id : 'Creation' }} - Status: {{$ctrl.item ? $ctrl.item.status : ''}}</h2>
         <span flex></span>
         <md-button aria-label="cancel" ng-click="$ctrl.cancel()" class="md-icon-button">
             <md-icon md-svg-icon="close"></md-icon>
@@ -10,8 +10,7 @@
 
 <md-dialog-content>
     <md-content class="md-padding" layout="row" style="overflow-x: hidden;">
-
-        <md-content layout="column" style="overflow-x: hidden;">
+        <md-content layout="column" style="overflow-x: hidden;" disabled>
             <md-input-container>
                 <label>User Name</label>
                 <input ng-model="$ctrl.item.user.name">
@@ -33,12 +32,12 @@
 
             <md-input-container>
                 <label>Celebrity Name</label>
-                <input ng-model="$ctrl.item.celebrities.name">
+                <input ng-model="$ctrl.item.celebrities.name" disabled>
             </md-input-container>
 
             <md-input-container>
                 <label>Video Url</label>
-                <input ng-model="$ctrl.item.video_url">
+                <input ng-model="$ctrl.item.video_url" disabled>
             </md-input-container>
         </md-content>
 
@@ -48,16 +47,27 @@
                 <md-datepicker ng-model="$ctrl.item.dt_duedate"></md-datepicker>
             </md-input-container>
         </md-content>
-
     </md-content>
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
+    <md-button  class="md-raised md-primary"
+                ng-click="$ctrl.approve()"
+                ng-if="$ctrl.showChangeStateButtons()">
+        {{ $ctrl.item.status == 'on_hold' ? 'Approve for celebrity production' : 'Approve and send Recipient User'}}
+    </md-button>
+    <md-button  class="md-raised md-warn"
+                ng-click="$ctrl.reject()"
+                ng-if="$ctrl.showChangeStateButtons()">
+        {{ $ctrl.item.status == 'on_hold' ? 'Reject user Request' : 'Reject and return to celebrity'}}
+    </md-button>
     <span flex></span>
-    <!--<md-button ng-click="$ctrl.save()">
+    <md-button  class="md-raised md-active md-primary"
+                ng-click="$ctrl.save()" ng-if="$ctrl.item.status != 'delivered'">
         Save
-    </md-button>-->
-    <md-button ng-click="$ctrl.cancel()">
+    </md-button>
+    <md-button class="md-raised md-active md-warn"
+                ng-click="$ctrl.cancel()">
         Cancel
     </md-button>
 </md-dialog-actions>
