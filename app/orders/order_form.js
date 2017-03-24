@@ -3,7 +3,8 @@ angular.module('myApp.orders')
         templateUrl: 'orders/order_form.html',
         controller: ordersFormCtrl,
         bindings: {
-            item: '='
+            item: '=',
+            items: '='
         }
     });
 
@@ -18,6 +19,10 @@ angular.module('myApp.orders')
 function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     console.log('Order form!');
 
+    setTimeout(() => {
+        this.item.dt_duedate = new Date(this.item.dt_duedate);
+    }, 100);
+
     this.cancel = function() {
         console.log('cancelo');
         $mdDialog.cancel();
@@ -27,7 +32,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     this.save = function() {
         console.log('Salvo');
 
-        updateOrder(this.item);
+        this.updateOrder();
 
         $mdDialog.hide();
     };
@@ -72,7 +77,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
             })
     };
 
-    this.reject =  function (order) {
+    this.reject =  function () {
         var newStatus = null;
         switch(this.item.status) {
             case 'on_hold': {
@@ -95,38 +100,49 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     function updateOrderStatus(order, newStatus) {
         firebase.database().ref().child("orders/" + order.order_id).once('value')
             .then(function(snapshot) {
-            snapshot.ref.update({"status": newStatus})
-                .then(function (success) {
-                    $mdToast.show($mdToast.simple().content('Order ' + order.order_id + ' has been updated successfully to status: ' + newStatus));
-                    notifyUpdate();
-                })
-                .catch(function (err) {
-                    $mdToast.show($mdToast.simple().content('Error on updating order ' + order.order_id + ' to status: ' + newStatus));
-                })
-        });
+                snapshot.ref.update({"status": newStatus})
+                    .then(function (success) {
+                        $mdToast.show($mdToast.simple().content('Order ' + order.order_id + ' has been updated successfully to status: ' + newStatus));
+                        notifyUpdate();
+                    })
+                    .catch(function (err) {
+                        $mdToast.show($mdToast.simple().content('Error on updating order ' + order.order_id + ' to status: ' + newStatus));
+                    })
+            });
     }
 
     function notifyUpdate() {
         $rootScope.$broadcast('orderUpdated');
     }
-    
-    function updateOrder (data) {
+
+    this.updateOrder = function() {
         // Get original order
-        return firebase.database().ref().child("orders/" + data.order_id).once('value').then(function(snapshot) {
-            var toUpdate = snapshot.val();
+        this.item.dt_duedate = this.item.dt_duedate.toString();
+        this.items.$save(this.item);
 
-            toUpdate.video_url = data.video_url;
-            toUpdate.dt_duedate = data.dt_duedate;
-            toUpdate.recipient[Object.keys(toUpdate.recipient)[0]] = data.recipient;
-
-            // Save modified order
-            return firebase.database().ref("orders/" + toUpdate.order_id).update(toUpdate)
-        });
-    }
+    };
 
     this.showChangeStateButtons = function () {
         return this.item.status == 'on_hold' || this.item.status == 'produced';
+    };
+
+    /**
+     * Helpers para obtener las referencias reales.
+     * */
+
+    this.celebrity = function () {
+        return getReal(this.item.celebrities);
+    };
+
+    this.recipient = function() {
+        return getReal(this.item.recipient);
+    };
+
+    this.user = function () {
+        return getReal(this.item.user);
+    };
+
+    function getReal(parent){
+        return parent[Object.keys(parent)[0]]
     }
-
-
 }

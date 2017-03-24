@@ -13,31 +13,30 @@
         <md-content layout="column" style="overflow-x: hidden;" disabled>
             <md-input-container>
                 <label>User Name</label>
-                <input ng-model="$ctrl.item.user.name">
+                <input ng-model="$ctrl.user().name">
             </md-input-container>
             <md-input-container>
                 <label>Recipient Name</label>
-                <input ng-model="$ctrl.item.recipient.name">
+                <input ng-model="$ctrl.recipient().name">
             </md-input-container>
             <md-input-container>
                 <label>Recipient Email</label>
-                <input ng-model="$ctrl.item.recipient.email">
+                <input ng-model="$ctrl.recipient().email">
             </md-input-container>
         </md-content>
         <md-content layout="column" style="overflow-x: hidden;">
             <md-input-container>
                 <label>Recipient Message</label>
-                <input ng-model="$ctrl.item.recipient.message">
+                <input ng-model="$ctrl.recipient().message">
             </md-input-container>
 
             <md-input-container>
                 <label>Celebrity Name</label>
-                <input ng-model="$ctrl.item.celebrities.name" disabled>
+                <input ng-model="$ctrl.celebrity().name" disabled>
             </md-input-container>
-
             <md-input-container>
                 <label>Video Url</label>
-                <input ng-model="$ctrl.item.video_url" disabled>
+                <input ng-model="$ctrl.item.video_url">
             </md-input-container>
         </md-content>
 

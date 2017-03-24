@@ -63,13 +63,13 @@
             md-auto-select
             ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit"
         >
-            <td md-cell>{{item.order_id}}</td>
-            <td md-cell>{{item.celebrities.name}}</td>
-            <td md-cell>{{item.user.email}}</td>
-            <td md-cell>{{item.recipient.email}}</td>
-            <td md-cell>{{item.product_id}}</td>
-            <td md-cell>{{item.status}}</td>
-            <td md-cell>{{item.dt_duedate | date: 'dd-MM-yyyy'}}</td>
+            <td md-cell>{{item.$id}}</td>
+            <td md-cell>{{$ctrl.formater(item).celebrities.name}}</td>
+            <td md-cell>{{$ctrl.formater(item).user.email}}</td>
+            <td md-cell>{{$ctrl.formater(item).recipient.email}}</td>
+            <td md-cell>{{$ctrl.formater(item).product_id}}</td>
+            <td md-cell>{{$ctrl.formater(item).status}}</td>
+            <td md-cell>{{$ctrl.formater(item).dt_duedate | date: 'dd-MM-yyyy'}}</td>
         </tr>
         </tbody>
     </table>

@@ -43,14 +43,6 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
         console.log(limit);
 
         this.promise = $firebaseArray(firebase.database().ref().child("orders")).$loaded()
-            .then(result => {
-                console.log('Data firebase');
-                if (result){
-                    return result.map(formatOrder);
-                } else {
-                    return [];
-                }
-            })
             .then(orders => {
                 this.items = orders;
             })
@@ -59,22 +51,27 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
             })
     };
 
-    function formatOrder(order) {
-        order.dt_duedate = new Date(order.dt_duedate);
-        order.user = order.user[Object.keys(order.user)[0]];
-        order.recipient = order.recipient[Object.keys(order.recipient)[0]];
-        order.product_id = Object.keys(order.product_type)[0];
-        order.celebrities = order.celebrities[Object.keys(order.celebrities)[0]];
-        order.celebrities.name = order.celebrities.first_name + ' ' + order.celebrities.last_name;
-        return order;
-    }
+    this.formater = function(item){
+        let value = {};
+        value.dt_duedate = new Date(item.dt_duedate);
+        value.user = item.user[Object.keys(item.user)[0]];
+        value.recipient = item.recipient[Object.keys(item.recipient)[0]];
+        value.product_id = Object.keys(item.product_type)[0];
+        value.celebrities = item.celebrities[Object.keys(item.celebrities)[0]];
+        value.celebrities.name = value.celebrities.first_name + ' ' + value.celebrities.last_name;
+        return value;
+    };
 
     this.edit = function(){
         $mdDialog.show({
-            template: '<order-form item="item"></order-form>',
-            locals : { item: this.selected[0] },
-            controller: function (item, $scope) {
+            template: '<order-form item="item" items="items"></order-form>',
+            locals : {
+                item: this.selected[0],
+                items: this.items
+            },
+            controller: function (item, items, $scope) {
                 $scope.item = item;
+                $scope.items = items;
             }
         })
             .then(() => {
