@@ -94,8 +94,25 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthServic
             });
     };
 
+    this.askToConfirm = function(message) {
+        var confirm = $mdDialog.confirm({
+            title: 'Remove',
+            ariaLabel: 'Alert',
+            content: message,
+            clickOutsideToClose: true,
+            ok: 'Yes',
+            cancel: 'Cancel'
+        });
+
+        return $mdDialog.show(confirm)
+    };
+
     this.remove = function () {
-        console.log('Eliminación Implementame')
+        console.log('Eliminación Implementame');
+
+        this.askToConfirm('Are you sure?').then(() => {
+            this.items.$remove(this.selected[0]);
+        });
     };
 
     $rootScope.$on('celebrityUpdated', () => {
