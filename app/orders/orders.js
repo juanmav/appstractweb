@@ -14,7 +14,7 @@ angular.module('myApp.orders', ['ngRoute'])
 
 function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, AuthService) {
 
-    //AuthService.checkLogin();
+    AuthService.checkLogin();
 
     this.selected = [];
 
