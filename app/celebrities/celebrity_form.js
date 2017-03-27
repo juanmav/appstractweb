@@ -14,6 +14,11 @@ angular.module('myApp.users')
 function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject, $rootScope, $scope) {
     console.log('Celebrity form!');
 
+    setTimeout(function () {
+        console.log('Para arriba!');
+        document.getElementById('8080').parentElement.scrollTop = 0;
+    }, 500);
+
     this.$onInit = function () {
         // Si no tengo item es creacion
 
