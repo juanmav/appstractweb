@@ -152,5 +152,16 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
     function getReal(parent){
         return parent[Object.keys(parent)[0]]
     }
+
+    this.formater = function(item){
+        let value = {};
+        value.dt_duedate = new Date(item.dt_duedate);
+        value.user = item.user[Object.keys(item.user)[0]];
+        value.recipient = item.recipient[Object.keys(item.recipient)[0]];
+        value.product_id = Object.keys(item.product_type)[0];
+        value.celebrities = item.celebrities[Object.keys(item.celebrities)[0]];
+        value.celebrities.name = value.celebrities.first_name + ' ' + value.celebrities.last_name;
+        return value;
+    };
 }
 

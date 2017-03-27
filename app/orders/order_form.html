@@ -50,23 +50,25 @@
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
-    <md-button  class="md-raised md-primary"
-                ng-click="$ctrl.approve()"
-                ng-if="$ctrl.showChangeStateButtons()">
-        {{ $ctrl.item.status == 'on_hold' ? 'Approve for celebrity production' : 'Approve and send Recipient User'}}
-    </md-button>
-    <md-button  class="md-raised md-warn"
-                ng-click="$ctrl.reject()"
-                ng-if="$ctrl.showChangeStateButtons()">
-        {{ $ctrl.item.status == 'on_hold' ? 'Reject user Request' : 'Reject and return to celebrity'}}
-    </md-button>
+    <div ng-if="$ctrl.formater($ctrl.item).product_id == 'VIC'">
+        <md-button  class="md-raised md-primary"
+                    ng-click="$ctrl.approve()"
+                    ng-if="$ctrl.showChangeStateButtons()">
+            {{ $ctrl.item.status == 'on_hold' ? 'Approve for celebrity production' : 'Approve and send Recipient User'}}
+        </md-button>
+        <md-button  class="md-raised md-warn"
+                    ng-click="$ctrl.reject()"
+                    ng-if="$ctrl.showChangeStateButtons()">
+            {{ $ctrl.item.status == 'on_hold' ? 'Reject user Request' : 'Reject and return to celebrity'}}
+        </md-button>
+    </div>
     <span flex></span>
     <md-button  class="md-raised md-active md-primary"
                 ng-click="$ctrl.save()" ng-if="$ctrl.item.status != 'delivered'">
         Save
     </md-button>
     <md-button class="md-raised md-active md-warn"
-                ng-click="$ctrl.cancel()">
+               ng-click="$ctrl.cancel()">
         Cancel
     </md-button>
 </md-dialog-actions>
