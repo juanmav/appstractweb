@@ -45,10 +45,10 @@
 <!-- Grilla tabla -->
 <md-table-container>
     <table md-table md-row-select ng-model="$ctrl.selected" md-progress="$ctrl.promise">
-        <thead md-head md-order="$ctrl.query.celebrity" md-on-reorder="$ctrl.getItems">
+        <thead md-head md-order="$ctrl.query.order" md-on-reorder="$ctrl.getItems">
         <tr md-row>
             <th md-column>Id</th>
-            <th md-column><span>Name</span></th>
+            <th md-column md-order-by="last_name"><span>Name</span></th>
             <th md-column><span>Type</span></th>
             <th md-column><span>Products</span></th>
         </tr>
@@ -58,7 +58,7 @@
             md-select="item"
             md-select-id="id"
             md-auto-select
-            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit"
+            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | orderBy: $ctrl.query.order | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit "
         >
             <td md-cell>{{item.$id}}</td>
             <td md-cell>{{$ctrl.formater(item).name}}</td>
