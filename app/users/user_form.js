@@ -9,8 +9,10 @@ angular.module('myApp.users')
 
 
 // https://material.angularjs.org/latest/demo/dialog
-function usersFormCtrl($mdDialog) {
+function usersFormCtrl($mdDialog, $location, AuthService) {
     console.log('User form!');
+
+    AuthService.checkLogin();
 
     this.cancel = function() {
         console.log('cancelo');

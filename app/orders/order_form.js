@@ -15,8 +15,10 @@ angular.module('myApp.orders')
  * asi sabemos si es un alta o una edicion.
  * En este caso **siempre** es edicion.
  * */
-function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
+function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, AuthService) {
     console.log('Order form!');
+
+    AuthService.checkLogin();
 
     this.cancel = function() {
         console.log('cancelo');
@@ -33,7 +35,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     };
 
 
-    this.askToConfirm = function (message) {
+    this.askToConfirm = function(message) {
         var confirm = $mdDialog.confirm({
             title: 'Alert',
             ariaLabel: 'Alert',
@@ -46,18 +48,20 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
         return $mdDialog.show(confirm)
     };
 
-    this.approve = function () {
+    this.approve = function() {
         var newStatus = null;
         console.log(this.item.status);
-        switch(this.item.status) {
-            case 'on_hold': {
-                newStatus = 'pending';
-                break;
-            }
-            case 'produced': {
-                newStatus = 'delivered';
-                break;
-            }
+        switch (this.item.status) {
+            case 'on_hold':
+                {
+                    newStatus = 'pending';
+                    break;
+                }
+            case 'produced':
+                {
+                    newStatus = 'delivered';
+                    break;
+                }
         }
 
         let message = 'Would you like to update the status from "' +
@@ -67,27 +71,29 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
             .then(() => {
                 updateOrderStatus(this.item, newStatus)
             })
-            .catch(()=> {
+            .catch(() => {
                 console.log('Dijo que no');
             })
     };
 
-    this.reject =  function (order) {
+    this.reject = function(order) {
         var newStatus = null;
-        switch(this.item.status) {
-            case 'on_hold': {
-                newStatus = 'rejected';
-                break;
-            }
-            case 'produced': {
-                newStatus = 'pending';
-                break;
-            }
+        switch (this.item.status) {
+            case 'on_hold':
+                {
+                    newStatus = 'rejected';
+                    break;
+                }
+            case 'produced':
+                {
+                    newStatus = 'pending';
+                    break;
+                }
         }
 
         let message = 'Would you like to update the status from "' + this.item.status + '" to "' + newStatus + '"?';
 
-        this.askToConfirm(message).then(()=> {
+        this.askToConfirm(message).then(() => {
             updateOrderStatus(this.item, newStatus)
         })
     };
@@ -95,22 +101,24 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     function updateOrderStatus(order, newStatus) {
         firebase.database().ref().child("orders/" + order.order_id).once('value')
             .then(function(snapshot) {
-            snapshot.ref.update({"status": newStatus})
-                .then(function (success) {
-                    $mdToast.show($mdToast.simple().content('Order ' + order.order_id + ' has been updated successfully to status: ' + newStatus));
-                    notifyUpdate();
-                })
-                .catch(function (err) {
-                    $mdToast.show($mdToast.simple().content('Error on updating order ' + order.order_id + ' to status: ' + newStatus));
-                })
-        });
+                snapshot.ref.update({
+                        "status": newStatus
+                    })
+                    .then(function(success) {
+                        $mdToast.show($mdToast.simple().content('Order ' + order.order_id + ' has been updated successfully to status: ' + newStatus));
+                        notifyUpdate();
+                    })
+                    .catch(function(err) {
+                        $mdToast.show($mdToast.simple().content('Error on updating order ' + order.order_id + ' to status: ' + newStatus));
+                    })
+            });
     }
 
     function notifyUpdate() {
         $rootScope.$broadcast('orderUpdated');
     }
 
-    function updateOrder (data) {
+    function updateOrder(data) {
         // Get original order
         return firebase.database().ref().child("orders/" + data.order_id).once('value').then(function(snapshot) {
             var toUpdate = snapshot.val();
@@ -124,7 +132,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
         });
     }
 
-    this.showChangeStateButtons = function () {
+    this.showChangeStateButtons = function() {
         return this.item.status == 'on_hold' || this.item.status == 'produced';
     }
 

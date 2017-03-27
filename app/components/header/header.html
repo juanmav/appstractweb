@@ -1,5 +1,5 @@
 <!-- Header -->
-<md-toolbar layout="row">
+<md-toolbar layout="row" ng-if="$ctrl.authservice.logged">
     <div class="md-toolbar-tools" >
 
         <md-button aria-label="menu" ng-click="$ctrl.open()" class="md-icon-button">
@@ -9,10 +9,10 @@
         <label flex>Admin Celebrities Store</label>
         <div layout="row" layout-align="space-between center">
             <div layout="column" layout-align="center end">
-                <label class="md-subhead" style="margin-right: 10px">{{ displayName }}</label>
-                <label class="md-subhead" style="margin-right: 10px">{{ email }}</label>
+                <label class="md-subhead" style="margin-right: 10px">{{ $ctrl.authservice.user.displayName }}</label>
+                <label class="md-subhead" style="margin-right: 10px">{{ $ctrl.authservice.user.email }}</label>
             </div>
-            <img ng-src="{{ photoURL }}" style="height: 50px; border-radius: 50%;" />
+            <img ng-src="{{ $ctrl.authservice.user.photoURL }}" style="height: 50px; border-radius: 50%;" />
         </div>
     </div>
 </md-toolbar>
