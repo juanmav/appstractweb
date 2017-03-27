@@ -109,7 +109,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     function notifyUpdate() {
         $rootScope.$broadcast('orderUpdated');
     }
-    
+
     function updateOrder (data) {
         // Get original order
         return firebase.database().ref().child("orders/" + data.order_id).once('value').then(function(snapshot) {

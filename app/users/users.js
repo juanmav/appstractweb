@@ -69,7 +69,6 @@ function usersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
         return user;
     }
 
-
     this.edit = function(){
         $mdDialog.show({
             template: '<user-form item="item"></user-form>',

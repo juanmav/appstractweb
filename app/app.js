@@ -15,14 +15,15 @@ angular.module('myApp', [
     'myApp.orders',
     'myApp.users',
     'myApp.celebrities',
+    'myApp.login',
 
     // Services
-    'firebase',
+    'firebase'
 ])
     .config(['$locationProvider', '$routeProvider', function($locationProvider, $routeProvider) {
         console.log('Router Config');
         $locationProvider.hashPrefix('!');
-        $routeProvider.otherwise({redirectTo: '/users'});
+        $routeProvider.otherwise({redirectTo: '/login'});
     }])
     .config(function ($mdThemingProvider) {
         console.log('Theming Congig');
@@ -36,5 +37,3 @@ angular.module('myApp', [
         $mdIconProvider
             .defaultIconSet('./mdi.svg')
     });
-
-
