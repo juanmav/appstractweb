@@ -14,7 +14,7 @@ angular.module('myApp.celebrities', ['ngRoute'])
 
 function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthService, $rootScope) {
 
-    //AuthService.checkLogin();
+    AuthService.checkLogin();
 
     this.selected = [];
 
