@@ -9,10 +9,12 @@ angular.module('myApp.header', ['ngRoute'])
         }
     });
 
-function headerCtrl($rootScope) {
+function headerCtrl($rootScope, $scope, firebase, AuthService) {
     console.log('header!');
 
-    this.open = function(){
+    this.authservice = AuthService;
+
+    this.open = function() {
         console.log('Open Menu');
         $rootScope.$broadcast('sidemenu');
     }

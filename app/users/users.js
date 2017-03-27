@@ -15,7 +15,10 @@ angular.module('myApp.users', ['ngRoute'])
         }
     });
 
-function usersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
+function usersCtrl($scope, $location, firebase, $firebaseArray, $mdDialog, AuthService) {
+
+    AuthService.checkLogin();
+
     this.selected = [];
 
     this.query = {
@@ -24,15 +27,14 @@ function usersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
         page: 1
     };
 
-    this.removeFilter = function () {
+    this.removeFilter = function() {
         this.filter.show = false;
         this.query.filter = '';
     };
-
     // Miro el filtro!
-    $scope.$watch(function () {
+    $scope.$watch(function() {
         return this.query.filter;
-    }.bind(this), function () {
+    }.bind(this), function() {
         this.getItems(this.query.filter);
     }.bind(this));
 
@@ -40,15 +42,15 @@ function usersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
      * Metodos a implementar en cada Entidad.
      * */
 
-    this.getItems = function (page, limit) {
+    this.getItems = function(page, limit) {
         console.log('Obtener items Implementame');
         console.log(page);
         console.log(limit);
 
         this.promise = $firebaseArray(firebase.database().ref().child("users")).$loaded()
             .then(result => {
-                console.log('Data firebase');
-                if (result){
+                console.log('fxfdData firebase');
+                if (result) {
                     return result.map(formatUser);
                 } else {
                     return [];
@@ -57,7 +59,7 @@ function usersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
             .then(users => {
                 this.items = users;
             })
-            .catch( e => {
+            .catch(e => {
                 console.error(e);
             })
     };
@@ -69,31 +71,32 @@ function usersCtrl($scope, firebase, $firebaseArray, $mdDialog) {
         return user;
     }
 
-
-    this.edit = function(){
+    this.edit = function() {
         $mdDialog.show({
-            template: '<user-form item="item"></user-form>',
-            locals : { item: this.selected[0] },
-            controller: function (item, $scope) {
-                $scope.item = item;
-            }
-        })
+                template: '<user-form item="item"></user-form>',
+                locals: {
+                    item: this.selected[0]
+                },
+                controller: function(item, $scope) {
+                    $scope.item = item;
+                }
+            })
             .then(() => {
                 this.getItems()
             });
     };
 
-    this.add = function () {
+    this.add = function() {
         console.log('Nuevo Implementame');
         $mdDialog.show({
-            template: '<user-form></user-form>',
-        })
+                template: '<user-form></user-form>',
+            })
             .then(() => {
                 this.getItems()
             });
     };
 
-    this.remove = function () {
+    this.remove = function() {
         console.log('Eliminación Implementame')
     }
 }

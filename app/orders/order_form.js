@@ -16,12 +16,14 @@ angular.module('myApp.orders')
  * asi sabemos si es un alta o una edicion.
  * En este caso **siempre** es edicion.
  * */
-function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
+function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, AuthService) {
     console.log('Order form!');
 
     setTimeout(() => {
         this.item.dt_duedate = new Date(this.item.dt_duedate);
     }, 100);
+
+    AuthService.checkLogin();
 
     this.cancel = function() {
         console.log('cancelo');
@@ -38,7 +40,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
     };
 
 
-    this.askToConfirm = function (message) {
+    this.askToConfirm = function(message) {
         var confirm = $mdDialog.confirm({
             title: 'Alert',
             ariaLabel: 'Alert',
@@ -51,15 +53,17 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
         return $mdDialog.show(confirm)
     };
 
-    this.approve = function () {
+    this.approve = function() {
         var newStatus = null;
         console.log(this.item.status);
-        switch(this.item.status) {
-            case 'on_hold': {
+        switch (this.item.status) {
+            case 'on_hold':
+            {
                 newStatus = 'pending';
                 break;
             }
-            case 'produced': {
+            case 'produced':
+            {
                 newStatus = 'delivered';
                 break;
             }
@@ -72,19 +76,21 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
             .then(() => {
                 updateOrderStatus(this.item, newStatus)
             })
-            .catch(()=> {
+            .catch(() => {
                 console.log('Dijo que no');
             })
     };
 
     this.reject =  function () {
         var newStatus = null;
-        switch(this.item.status) {
-            case 'on_hold': {
+        switch (this.item.status) {
+            case 'on_hold':
+            {
                 newStatus = 'rejected';
                 break;
             }
-            case 'produced': {
+            case 'produced':
+            {
                 newStatus = 'pending';
                 break;
             }
@@ -92,7 +98,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
 
         let message = 'Would you like to update the status from "' + this.item.status + '" to "' + newStatus + '"?';
 
-        this.askToConfirm(message).then(()=> {
+        this.askToConfirm(message).then(() => {
             updateOrderStatus(this.item, newStatus)
         })
     };
@@ -115,6 +121,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
         $rootScope.$broadcast('orderUpdated');
     }
 
+
     this.updateOrder = function() {
         // Get original order
         this.item.dt_duedate = this.item.dt_duedate.toString();
@@ -122,7 +129,7 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
 
     };
 
-    this.showChangeStateButtons = function () {
+    this.showChangeStateButtons = function() {
         return this.item.status == 'on_hold' || this.item.status == 'produced';
     };
 
@@ -146,3 +153,4 @@ function ordersFormCtrl($rootScope, $mdDialog, firebase, $mdToast) {
         return parent[Object.keys(parent)[0]]
     }
 }
+

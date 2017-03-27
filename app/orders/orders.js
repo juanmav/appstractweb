@@ -12,7 +12,10 @@ angular.module('myApp.orders', ['ngRoute'])
         controller: ordersCtrl
     });
 
-function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
+function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, AuthService) {
+
+    //AuthService.checkLogin();
+
     this.selected = [];
 
     this.query = {
@@ -21,15 +24,15 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
         page: 1
     };
 
-    this.removeFilter = function () {
+    this.removeFilter = function() {
         this.filter.show = false;
         this.query.filter = '';
     };
 
     // Miro el filtro!
-    $scope.$watch(function () {
+    $scope.$watch(function() {
         return this.query.filter;
-    }.bind(this), function () {
+    }.bind(this), function() {
         this.getItems(this.query.filter);
     }.bind(this));
 
@@ -37,18 +40,14 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
      * Metodos a implementar en cada Entidad.
      * */
 
-    this.getItems = function (page, limit) {
+    this.getItems = function(page, limit) {
         console.log('Obtener items Implementame');
         console.log(page);
         console.log(limit);
 
-        this.promise = $firebaseArray(firebase.database().ref().child("orders")).$loaded()
-            .then(orders => {
-                this.items = orders;
-            })
-            .catch( e => {
-                console.error(e);
-            })
+        this.items = $firebaseArray(firebase.database().ref().child("orders"));
+
+        this.promise = this.items.$loaded()
     };
 
     this.formater = function(item){
@@ -62,7 +61,7 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
         return value;
     };
 
-    this.edit = function(){
+    this.edit = function() {
         $mdDialog.show({
             template: '<order-form item="item" items="items"></order-form>',
             locals : {
@@ -74,22 +73,23 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog) {
                 $scope.items = items;
             }
         })
+
             .then(() => {
                 this.getItems()
             });
     };
 
-    this.add = function () {
+    this.add = function() {
         console.log('Nuevo Implementame');
         $mdDialog.show({
-            template: '<order-form></order-form>',
-        })
+                template: '<order-form></order-form>',
+            })
             .then(() => {
                 this.getItems()
             });
     };
 
-    this.remove = function () {
+    this.remove = function() {
         console.log('Eleminiacion Implementame')
     };
 

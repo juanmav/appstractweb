@@ -19,17 +19,18 @@ function celebritiesFormCtrl($mdDialog, $firebaseObject, firebase) {
 
     this.save = function() {
 
-      /*var ref = firebase.database().ref().child('celebrities/' + this.item.celebrity_id);
-      var celebrity = $firebaseObject(ref);
+      firebase.database().ref().child("celebrities/" + this.item.celebrity_id)
+        .once('value')
+        .then(function(snapshot) {
+          var toUpdate = snapshot.val();
 
-      celebrity.$save()
-         .then(result => {
-              console.log('Celebrity saved on Firebase');
-          })
-          .catch( e => {
-              console.error(e);
-          })*/
+          toUpdate.type = data.video_url;
 
-        $mdDialog.cancel();
+          // Save modified order
+          return firebase.database().ref("celebrities/" + toUpdate.celebrity_id)
+            .update(toUpdate);
+        });
+
+      $mdDialog.cancel();
     };
 }
