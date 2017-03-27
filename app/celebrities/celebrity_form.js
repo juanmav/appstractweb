@@ -11,7 +11,7 @@ angular.module('myApp.users')
 
 // https://material.angularjs.org/latest/demo/dialog
 // https://github.com/firebase/angularfire/issues/922
-function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject) {
+function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject, $rootScope) {
     console.log('Celebrity form!');
 
     this.$onInit = function () {
@@ -33,6 +33,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
 
     this.cancel = function() {
         console.log('cancelo');
+        $rootScope.$broadcast('celebrityUpdated');
         $mdDialog.cancel();
     };
 
@@ -48,14 +49,11 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
             });
         } else {
             // Es una creacion
-            console.log('por el add');
             this.items.$add(this.item).then(function(ref) {
-                console.log('Item Agregado');
-
+                console.log('Item agregado');
+                $rootScope.$broadcast('celebrityUpdated');
+                $mdDialog.hide();
             });
-            console.log('despues del add');
-            $mdDialog.hide();
         }
-
     };
 }

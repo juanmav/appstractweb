@@ -12,9 +12,9 @@ angular.module('myApp.celebrities', ['ngRoute'])
         controller: celebritiesCtrl
     });
 
-function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthService) {
+function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthService, $rootScope) {
 
-    AuthService.checkLogin();
+    //AuthService.checkLogin();
 
     this.selected = [];
 
@@ -48,9 +48,18 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthServic
     this.formater = function(celebrity) {
         let value = {};
         value.name = celebrity.first_name + ' ' + celebrity.last_name;
-        value.products = celebrity.product_types ? Object.keys(celebrity.product_types).join(', ') : '';
+        if (celebrity.product_types){
+            value.products = Object.keys(celebrity.product_types).filter((key) => {
+                    return celebrity.product_types[key].active;
+                }
+            ).join(', ');
+        } else {
+            value.products = '';
+        }
         return value;
     };
+
+
 
     this.edit = function(){
         $mdDialog.show({
@@ -87,5 +96,11 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthServic
 
     this.remove = function () {
         console.log('Eliminación Implementame')
-    }
+    };
+
+    $rootScope.$on('celebrityUpdated', () => {
+        console.log('reload');
+        this.selected = [];
+        this.getItems();
+    })
 }

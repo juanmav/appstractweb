@@ -14,7 +14,7 @@
 
 <md-toolbar class="md-table-toolbar md-default" ng-if="$ctrl.selected.length">
     <div class="md-toolbar-tools">
-        <h2 class="md-title">Item seleccionado: {{$ctrl.selected[0].name}}</h2>
+        <h2 class="md-title">Item seleccionado: {{$ctrl.formater($ctrl.selected[0]).name}}</h2>
         <div flex></div>
         <md-button aria-label="delete" ng-click="$ctrl.edit()" class="md-icon-button">
             <md-icon style="fill: grey;"md-svg-icon="pencil"></md-icon>

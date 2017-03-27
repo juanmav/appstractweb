@@ -1,75 +1,77 @@
 <md-toolbar style="width: 60vw">
-  <div class="md-toolbar-tools">
-    <h2>Celebrity {{$ctrl.item ? $ctrl.item.name : 'Creation' }}</h2>
-    <span flex></span>
-    <md-button aria-label="cancel" ng-click="$ctrl.cancel()" class="md-icon-button">
-      <md-icon md-svg-icon="close"></md-icon>
-    </md-button>
-  </div>
+    <div class="md-toolbar-tools">
+        <h2>Celebrity {{$ctrl.item ? $ctrl.item.name : 'Creation' }}</h2>
+        <span flex></span>
+        <md-button aria-label="cancel" ng-click="$ctrl.cancel()" class="md-icon-button">
+            <md-icon md-svg-icon="close"></md-icon>
+        </md-button>
+    </div>
 </md-toolbar>
 
 <md-dialog-content>
-  <md-content layout="column" class="md-padding" layout-align="space-between center">
-    <md-content layout="row" layout-align="space-between center">
-      <div layout="column" layout-align="center center">
-        <img ng-src="{{$ctrl.item.profile_pic}}" style="width: 100px;">
-        <md-button>Change Profile Picture</md-button>
-      </div>
+    <md-content layout="column" class="md-padding" layout-align="space-between center">
+        <md-content layout="row" layout-align="space-between center">
+            <div layout="column" layout-align="center center">
+                <img ng-src="{{$ctrl.item.profile_pic}}" style="width: 100px;">
+                <md-button class="md-raised md-primary">Change Profile Picture</md-button>
+            </div>
 
-      <div layout="column" layout-align="center center">
-        <img ng-src="{{$ctrl.item.profile_pic}}" style="width: 100px;">
-        <md-button>Change Landing Page Picture</md-button>
-      </div>
-    </md-content>
+            <div layout="column" layout-align="center center">
+                <img ng-src="{{$ctrl.item.gallery.IMG1.image_url}}" style="width: 100px;">
+                <md-button class="md-raised md-primary">Change Landing Page Picture</md-button>
+            </div>
+        </md-content>
 
-    <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
-      <md-input-container >
-        <label>First Name</label>
-        <input ng-model="$ctrl.item.first_name">
-      </md-input-container>
-      <md-input-container >
-        <label>Last Name</label>
-        <input ng-model="$ctrl.item.last_name">
-      </md-input-container>
-    </md-content>
+        <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
+            <md-input-container >
+                <label>First Name</label>
+                <input ng-model="$ctrl.item.first_name">
+            </md-input-container>
+            <md-input-container >
+                <label>Last Name</label>
+                <input ng-model="$ctrl.item.last_name">
+            </md-input-container>
+        </md-content>
 
-    <md-input-container  style="width: 90%">
-      <md-select ng-model="$ctrl.item.type" placeholder="Type">
-        <md-option value="celebrity">Celebrity</md-option>
-        <md-option value="futbol">Futbol</md-option>
-        <md-option value="musica">Musica</md-option>
-      </md-select>
-    </md-input-container>
+        <md-input-container  style="width: 90%">
+            <md-select ng-model="$ctrl.item.type" placeholder="Type">
+                <md-option value="celebrity">Celebrity</md-option>
+                <md-option value="futbol">Futbol</md-option>
+                <md-option value="musica">Musica</md-option>
+            </md-select>
+        </md-input-container>
 
-    <div style="width: 90%">
-      <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
-      <br /><br />
-      <div ng-repeat="(key, product) in $ctrl.item.product_types">
-        <md-checkbox ng-model="product.active">
-          {{product.product_type}}
-        </md-checkbox>
-        <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes">
-          <md-checkbox  style="margin-left: 5%;">
-            {{subtype.descrip}}
-          </md-checkbox>
+        <div style="width: 90%">
+            <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
+            <br /><br />
+            <div ng-repeat="(key, product) in $ctrl.item.product_types">
+                <md-checkbox ng-model="product.active">
+                    {{product.product_type}}
+                </md-checkbox>
+                <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes">
+                    <md-checkbox  style="margin-left: 5%;">
+                    </md-checkbox>
+                    <md-input-container style="width: 75%">
+                        <input ng-model="subtype.descrip">
+                    </md-input-container>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
 
-    <md-input-container  style="width: 90%">
-      <label>Bio</label>
-      <textarea ng-model="$ctrl.item.bio" rows="2"></textarea>
-    </md-input-container>
+        <md-input-container  style="width: 90%">
+            <label>Bio</label>
+            <textarea ng-model="$ctrl.item.bio" rows="2"></textarea>
+        </md-input-container>
 
-  </md-content>
+    </md-content>
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
-  <span flex></span>
-  <md-button ng-click="$ctrl.save()">
-    Save
-  </md-button>
-  <md-button ng-click="$ctrl.cancel()">
-    Cancel
-  </md-button>
+    <span flex></span>
+    <md-button ng-click="$ctrl.save()">
+        Save
+    </md-button>
+    <md-button ng-click="$ctrl.cancel()">
+        Cancel
+    </md-button>
 </md-dialog-actions>
