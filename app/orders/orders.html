@@ -68,7 +68,7 @@
             <td md-cell>{{$ctrl.formater(item).user.email}}</td>
             <td md-cell>{{$ctrl.formater(item).recipient.email}}</td>
             <td md-cell>{{$ctrl.formater(item).product_id}}</td>
-            <td md-cell>{{$ctrl.formater(item).status}}</td>
+            <td md-cell>{{item.status}}</td>
             <td md-cell>{{$ctrl.formater(item).dt_duedate | date: 'dd-MM-yyyy'}}</td>
         </tr>
         </tbody>

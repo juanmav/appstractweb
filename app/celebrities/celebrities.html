@@ -6,9 +6,9 @@
         <md-button aria-label="filter-variant" ng-click="$ctrl.filter.show = true" class="md-icon-button">
             <md-icon style="fill: grey;"md-svg-icon="filter-variant"></md-icon>
         </md-button>
-        <!--md-button aria-label="plus" ng-click="$ctrl.add()" class="md-icon-button">
+        <md-button aria-label="plus" ng-click="$ctrl.add()" class="md-icon-button">
             <md-icon style="fill: grey;"md-svg-icon="plus"></md-icon>
-        </md-button-->
+        </md-button>
     </div>
 </md-toolbar>
 
@@ -60,10 +60,10 @@
             md-auto-select
             ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit"
         >
-            <td md-cell>{{item.celebrity_id}}</td>
-            <td md-cell>{{item.name}}</td>
+            <td md-cell>{{item.$id}}</td>
+            <td md-cell>{{$ctrl.formater(item).name}}</td>
             <td md-cell>{{item.type}}</td>
-            <td md-cell>{{item.products}}</td>
+            <td md-cell>{{$ctrl.formater(item).products}}</td>
         </tr>
         </tbody>
     </table>

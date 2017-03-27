@@ -3,14 +3,33 @@ angular.module('myApp.users')
         templateUrl: 'celebrities/celebrity_form.html',
         controller: celebritiesFormCtrl,
         bindings: {
-            item: '='
+            item: '<',
+            items: '<'
         }
     });
 
 
 // https://material.angularjs.org/latest/demo/dialog
-function celebritiesFormCtrl($mdDialog, $firebaseObject, firebase) {
+// https://github.com/firebase/angularfire/issues/922
+function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject) {
     console.log('Celebrity form!');
+
+    this.$onInit = function () {
+        // Si no tengo item es creacion
+
+        if (!this.item){
+            this.item = {};
+
+            $firebaseObject(firebase.database().ref().child("product_types/EN"))
+                .$loaded((value) => {
+                    this.item.product_types = {};
+                    this.item.product_types.MEM = value.MEM;
+                    this.item.product_types.EXP = value.EXP;
+                    this.item.product_types.VIC = value.VIC;
+                    this.item.product_types.VID = value.VID;
+                })
+        }
+    };
 
     this.cancel = function() {
         console.log('cancelo');
@@ -19,18 +38,24 @@ function celebritiesFormCtrl($mdDialog, $firebaseObject, firebase) {
 
     this.save = function() {
 
-      firebase.database().ref().child("celebrities/" + this.item.celebrity_id)
-        .once('value')
-        .then(function(snapshot) {
-          var toUpdate = snapshot.val();
+        console.log('vamos a salvar!');
 
-          toUpdate.type = data.video_url;
+        if (this.item.$id){
+            // Es un update
+            this.items.$save(this.item).then(function(ref) {
+                console.log('Item actualizado');
+                $mdDialog.hide();
+            });
+        } else {
+            // Es una creacion
+            console.log('por el add');
+            this.items.$add(this.item).then(function(ref) {
+                console.log('Item Agregado');
 
-          // Save modified order
-          return firebase.database().ref("celebrities/" + toUpdate.celebrity_id)
-            .update(toUpdate);
-        });
+            });
+            console.log('despues del add');
+            $mdDialog.hide();
+        }
 
-      $mdDialog.cancel();
     };
 }

@@ -9,13 +9,13 @@ angular.module('myApp.celebrities', ['ngRoute'])
     }])
     .component('celebrities', {
         templateUrl: 'celebrities/celebrities.html',
-        controller: celebritiesCtrl,
-        bindings: {
-            hero: '='
-        }
+        controller: celebritiesCtrl
     });
 
-function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog) {
+function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthService) {
+
+    AuthService.checkLogin();
+
     this.selected = [];
 
     this.query = {
@@ -41,39 +41,27 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog) {
      * */
 
     this.getItems = function (page, limit) {
-        console.log('Obtener items Implementame');
-        console.log(page);
-        console.log(limit);
-
-        this.promise = $firebaseArray(firebase.database().ref().child("celebrities")).$loaded()
-            .then(result => {
-                console.log('Data firebase');
-                if (result){
-                    return result.map(formatCelebrity);
-                } else {
-                    return [];
-                }
-            })
-            .then(celebrities => {
-                this.items = celebrities;
-            })
-            .catch( e => {
-                console.error(e);
-            })
+        this.items = $firebaseArray(firebase.database().ref().child("celebrities"));
+        this.promise = this.items.$loaded()
     };
 
-    function formatCelebrity(celebrity) {
-        celebrity.name = celebrity.first_name + ' ' + celebrity.last_name;
-        celebrity.products = Object.keys(celebrity.product_types).join(', ');
-        return celebrity;
-    }
+    this.formater = function(celebrity) {
+        let value = {};
+        value.name = celebrity.first_name + ' ' + celebrity.last_name;
+        value.products = celebrity.product_types ? Object.keys(celebrity.product_types).join(', ') : '';
+        return value;
+    };
 
     this.edit = function(){
         $mdDialog.show({
-            template: '<celebrity-form item="item"></celebrity-form>',
-            locals : { item: this.selected[0] },
-            controller: function (item, $scope) {
+            template: '<celebrity-form item="item" items="items"></celebrity-form>',
+            locals : {
+                item: this.selected[0],
+                items: this.items
+            },
+            controller: function (item, items, $scope) {
                 $scope.item = item;
+                $scope.items = items;
             }
         })
             .then(() => {
@@ -84,7 +72,13 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog) {
     this.add = function () {
         console.log('Nuevo Implementame');
         $mdDialog.show({
-            template: '<celebrity-form></celebrity-form>',
+            template: '<celebrity-form items="items"></celebrity-form>',
+            locals : {
+                items: this.items
+            },
+            controller: function (items, $scope) {
+                $scope.items = items;
+            }
         })
             .then(() => {
                 this.getItems()
