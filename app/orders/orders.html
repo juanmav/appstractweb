@@ -45,14 +45,14 @@
 <!-- Grilla tabla -->
 <md-table-container>
     <table md-table md-row-select ng-model="$ctrl.selected" md-progress="$ctrl.promise">
-        <thead md-head md-order="$ctrl.query.order" md-on-reorder="$ctrl.getItems">
+        <thead md-head md-order="$ctrl.query.order" >
         <tr md-row>
             <th md-column md-numeric>Id</th>
             <th md-column><span>Celebrity Name</span></th>
             <th md-column md-numeric><span>User Email</span></th>
             <th md-column md-numeric>Recipient Email</th>
             <th md-column md-numeric>Products</th>
-            <th md-column md-numeric>Status</th>
+            <th md-column md-numeric md-order-by="status">Status</th>
             <th md-column md-numeric>Due Date</th>
         </tr>
         </thead>
@@ -61,7 +61,7 @@
             md-select="item"
             md-select-id="id"
             md-auto-select
-            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit"
+            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit | orderBy: $ctrl.query.order"
         >
             <td md-cell>{{item.$id}}</td>
             <td md-cell>{{$ctrl.formater(item).celebrities.name}}</td>

@@ -19,7 +19,7 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, Aut
     this.selected = [];
 
     this.query = {
-        order: 'name',
+        order: 'status',
         limit: 5,
         page: 1
     };
