@@ -11,7 +11,7 @@ angular.module('myApp.users')
 
 // https://material.angularjs.org/latest/demo/dialog
 // https://github.com/firebase/angularfire/issues/922
-function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject, $rootScope) {
+function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject, $rootScope, $scope) {
     console.log('Celebrity form!');
 
     this.$onInit = function () {
@@ -19,6 +19,9 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
 
         if (!this.item){
             this.item = {};
+
+            this.item.gallery = {};
+            this.item.gallery.IMG1 = {};
 
             $firebaseObject(firebase.database().ref().child("product_types/EN"))
                 .$loaded((value) => {
@@ -56,4 +59,43 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
             });
         }
     };
+
+    this.uploadImages = function () {
+        let profilepicFile = document.getElementById("profilepic").files[0];
+        let image1File = document.getElementById("image1").files[0];
+
+        if (profilepicFile){
+            let uploadTask = firebase.storage().ref().child(profilepicFile.name).put(profilepicFile);
+            this.uploadingProfilePic = true;
+            uploadTask.on('state_changed', (snapshot) =>{
+                console.log(snapshot);
+            }, (error) =>{
+                console.error(error);
+                this.uploadingProfilePic = false;
+            }, () => {
+                console.log(uploadTask.snapshot.downloadURL);
+                this.item.profile_pic = uploadTask.snapshot.downloadURL;
+                this.uploadingProfilePic = false;
+                $scope.$apply();
+
+            });
+        }
+
+        if (image1File){
+
+            let uploadTask2 = firebase.storage().ref().child(image1File.name).put(image1File);
+            this.uploadingIMG1 = true;
+            uploadTask2.on('state_changed', (snapshot) =>{
+                console.log(snapshot);
+            }, (error) =>{
+                console.error(error);
+                this.uploadingIMG1 = false;
+            }, () => {
+                console.log(uploadTask2.snapshot.downloadURL);
+                this.item.gallery.IMG1.image_url = uploadTask2.snapshot.downloadURL;
+                this.uploadingIMG1 = false;
+                $scope.$apply();
+            });
+        }
+    }
 }

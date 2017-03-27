@@ -12,15 +12,21 @@
     <md-content layout="column" class="md-padding" layout-align="space-between center">
         <md-content layout="row" layout-align="space-between center">
             <div layout="column" layout-align="center center">
+                <md-progress-circular ng-if="$ctrl.uploadingProfilePic" md-mode="indeterminate"></md-progress-circular>
                 <img ng-src="{{$ctrl.item.profile_pic}}" style="width: 100px;">
-                <md-button class="md-raised md-primary">Change Profile Picture</md-button>
+                <input class="ng-hide" id="profilepic" type="file" />
+                <label for="profilepic" class="md-button md-raised md-primary">Select Profile Pic</label>
             </div>
 
             <div layout="column" layout-align="center center">
+                <md-progress-circular ng-if="$ctrl.uploadingIMG1" md-mode="indeterminate"></md-progress-circular>
                 <img ng-src="{{$ctrl.item.gallery.IMG1.image_url}}" style="width: 100px;">
-                <md-button class="md-raised md-primary">Change Landing Page Picture</md-button>
+                <input class="ng-hide" id="image1" type="file" />
+                <label for="image1" class="md-button md-raised md-primary">Select Image 1</label>
             </div>
         </md-content>
+
+        <md-button ng-click="$ctrl.uploadImages()" class="md-raised md-warn"> Update Images</md-button>
 
         <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
             <md-input-container >
