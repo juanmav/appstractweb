@@ -30,18 +30,24 @@
             <md-button ng-click="$ctrl.uploadImages()" class="md-raised md-warn"> Update Images</md-button>
 
             <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
-                <md-input-container >
+                <md-input-container style="width: 45%">
                     <label>First Name</label>
-                    <input ng-model="$ctrl.item.first_name" required>
+                    <input aria-label="first_name" ng-model="$ctrl.item.first_name" required>
                 </md-input-container>
-                <md-input-container >
+                <md-input-container style="width: 45%">
                     <label>Last Name</label>
-                    <input ng-model="$ctrl.item.last_name" required>
+                    <input aria-label="last_name" ng-model="$ctrl.item.last_name" required>
                 </md-input-container>
             </md-content>
 
-            <md-input-container  style="width: 90%">
-                <md-select ng-model="$ctrl.item.type" placeholder="Type" required>
+
+            <md-input-container  style="width: 90%;">
+                <label>Email</label>
+                <input aria-label="email" ng-model="$ctrl.item.email" required>
+            </md-input-container>
+
+            <md-input-container  style="width: 90%;">
+                <md-select aria-label="Type" ng-model="$ctrl.item.type" placeholder="Type" required>
                     <md-option value="celebrity">Celebrity</md-option>
                     <md-option value="futbol">Futbol</md-option>
                     <md-option value="musica">Musica</md-option>
@@ -52,17 +58,43 @@
                 <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
                 <br /><br />
                 <div ng-repeat="(key, product) in $ctrl.item.product_types">
-                    <md-checkbox ng-model="product.active">
+                    <md-checkbox aria-label="active" ng-model="product.active">
                     </md-checkbox>
-                    <md-input-container style="width: 75%">
-                        <input ng-model="product.product_type">
+
+                    <!-- Product Type-->
+                    <md-input-container style="width: 30%">
+                        <label>Product Type</label>
+                        <input aria-label="product_type" ng-model="product.product_type">
                     </md-input-container>
-                    <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes">
-                        <md-checkbox  style="margin-left: 5%;">
+
+                    <md-input-container style="width: 50%">
+                        <label>Description</label>
+                        <input aria-label="descrip" ng-model="product.descrip">
+                    </md-input-container>
+
+                    <md-input-container style="width: 10%">
+                        <label>Price</label>
+                        <input aria-label="price" ng-model="product.price">
+                    </md-input-container>
+
+
+                    <!-- Product Subtype-->
+                    <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes" style="margin-left: 5%;">
+                        <md-checkbox aria-label="subtypes" ng-model="subtype.active">
                         </md-checkbox>
-                        <md-input-container style="width: 75%">
-                            <input ng-model="subtype.descrip">
+                        <md-input-container style="width: 15%">
+                            <label>Name</label>
+                            <input aria-label="name" ng-model="subtype.name">
                         </md-input-container>
+                        <md-input-container style="width: 50%">
+                            <label>Description</label>
+                            <input aria-label="descrip" ng-model="subtype.descrip">
+                        </md-input-container>
+                        <md-input-container style="width: 10%">
+                            <label>Price</label>
+                            <input aria-label="price" ng-model="subtype.price">
+                        </md-input-container>
+
                     </div>
                 </div>
             </div>

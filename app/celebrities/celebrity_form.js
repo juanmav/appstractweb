@@ -26,7 +26,26 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
             this.item = {};
 
             this.item.gallery = {};
-            this.item.gallery.IMG1 = {};
+            this.item.gallery.IMG1 = {
+                image_id : "IMG1",
+                image_url: ""
+            };
+            this.item.gallery.IMG2 = {
+                image_id : "IMG2",
+                image_url: ""
+            };
+
+            this.item.created_at = new Date().toString();
+            this.item.updated_at = new Date().toString();
+            this.item.bio = "";
+            this.item.email = "";
+            this.item.profile_pic = "";
+
+            this.item.last_name = "";
+            this.item.first_name = "";
+            this.item.type = "";
+
+            this.item.celebrity_id= "";
 
             $firebaseObject(firebase.database().ref().child("product_types/EN"))
                 .$loaded((value) => {
@@ -53,12 +72,14 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
             // Es un update
             this.items.$save(this.item).then(function(ref) {
                 console.log('Item actualizado');
+                console.log(ref);
                 $mdDialog.hide();
             });
         } else {
             // Es una creacion
-            this.items.$add(this.item).then(function(ref) {
+            this.items.$add(this.item).then((ref) => {
                 console.log('Item agregado');
+                firebase.database().ref().child("celebrities/" + ref.key).update({celebrity_id : ref.key});
                 $rootScope.$broadcast('celebrityUpdated');
                 $mdDialog.hide();
             });
