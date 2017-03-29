@@ -31,7 +31,7 @@
             <md-icon style="fill: grey;" md-svg-icon="magnify"></md-icon>
             <input
                     aria-label="filter"
-                    ng-model="$ctrl.query.filter"
+                    ng-model="$ctrl.filter.value"
                     ng-model-options="{ debounce: 500 }"
             >
         </md-input-container>
@@ -41,7 +41,6 @@
         </md-button>
     </div>
 </md-toolbar>
-
 <!-- Grilla tabla -->
 <md-table-container>
     <table md-table md-row-select ng-model="$ctrl.selected" md-progress="$ctrl.promise">
@@ -61,15 +60,18 @@
             md-select="item"
             md-select-id="id"
             md-auto-select
-            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit | orderBy: $ctrl.query.order"
-        >
-            <td md-cell>{{item.$id}}</td>
+            ng-repeat="item in $ctrl.items |
+                limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit |
+                orderBy: $ctrl.query.order |
+                filter: {order_id: $ctrl.filter.value}">
+
+            <td md-cell>{{item.order_id}}</td>
             <td md-cell>{{$ctrl.formater(item).celebrities.name}}</td>
             <td md-cell>{{$ctrl.formater(item).user.email}}</td>
             <td md-cell>{{$ctrl.formater(item).recipient.email}}</td>
             <td md-cell>{{$ctrl.formater(item).product_id}}</td>
             <td md-cell>{{item.status}}</td>
-            <td md-cell>{{$ctrl.formater(item).dt_duedate | date: 'dd-MM-yyyy'}}</td>
+            <td md-cell>{{item.dt_duedate | date: 'dd-MM-yyyy'}}</td>
         </tr>
         </tbody>
     </table>
@@ -81,5 +83,4 @@
         md-page="$ctrl.query.page"
         md-total="{{$ctrl.items.length}}"
         md-on-paginate="$ctrl.getItems" md-page-select>
-
 </md-table-pagination>

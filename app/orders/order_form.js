@@ -19,9 +19,9 @@ angular.module('myApp.orders')
 function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, AuthService) {
     console.log('Order form!');
 
-    setTimeout(() => {
-        this.item.dt_duedate = new Date(this.item.dt_duedate);
-    }, 100);
+    this.$onInit = function() {
+        this.item.dt_duedate = stringToDate(this.item.dt_duedate);
+    };
 
     AuthService.checkLogin();
 
@@ -58,15 +58,15 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
         console.log(this.item.status);
         switch (this.item.status) {
             case 'on_hold':
-            {
-                newStatus = 'pending';
-                break;
-            }
+                {
+                    newStatus = 'pending';
+                    break;
+                }
             case 'produced':
-            {
-                newStatus = 'delivered';
-                break;
-            }
+                {
+                    newStatus = 'delivered';
+                    break;
+                }
         }
 
         let message = 'Would you like to update the status from "' +
@@ -81,19 +81,19 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
             })
     };
 
-    this.reject =  function () {
+    this.reject = function() {
         var newStatus = null;
         switch (this.item.status) {
             case 'on_hold':
-            {
-                newStatus = 'rejected';
-                break;
-            }
+                {
+                    newStatus = 'rejected';
+                    break;
+                }
             case 'produced':
-            {
-                newStatus = 'pending';
-                break;
-            }
+                {
+                    newStatus = 'pending';
+                    break;
+                }
         }
 
         let message = 'Would you like to update the status from "' + this.item.status + '" to "' + newStatus + '"?';
@@ -106,12 +106,14 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
     function updateOrderStatus(order, newStatus) {
         firebase.database().ref().child("orders/" + order.order_id).once('value')
             .then(function(snapshot) {
-                snapshot.ref.update({"status": newStatus})
-                    .then(function (success) {
+                snapshot.ref.update({
+                        "status": newStatus
+                    })
+                    .then(function(success) {
                         $mdToast.show($mdToast.simple().content('Order ' + order.order_id + ' has been updated successfully to status: ' + newStatus));
                         notifyUpdate();
                     })
-                    .catch(function (err) {
+                    .catch(function(err) {
                         $mdToast.show($mdToast.simple().content('Error on updating order ' + order.order_id + ' to status: ' + newStatus));
                     })
             });
@@ -121,10 +123,25 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
         $rootScope.$broadcast('orderUpdated');
     }
 
+    function dateToString(date) {
+        var mm = date.getMonth() + 1;
+        var dd = date.getDate();
+
+        return [(dd > 9 ? '' : '0') + dd,
+            (mm > 9 ? '' : '0') + mm,
+            date.getFullYear()
+        ].join('-');
+    };
+
+    function stringToDate(date) {
+        var parts = date.split('-');
+
+        return new Date(parts[0], parts[1], parts[2]);
+    };
 
     this.updateOrder = function() {
         // Get original order
-        this.item.dt_duedate = this.item.dt_duedate.toString();
+        this.item.dt_duedate = dateToString(this.item.dt_duedate);
         this.items.$save(this.item);
 
     };
@@ -137,7 +154,7 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
      * Helpers para obtener las referencias reales.
      * */
 
-    this.celebrity = function () {
+    this.celebrity = function() {
         return getReal(this.item.celebrities);
     };
 
@@ -145,15 +162,15 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
         return getReal(this.item.recipient);
     };
 
-    this.user = function () {
+    this.user = function() {
         return getReal(this.item.user);
     };
 
-    function getReal(parent){
+    function getReal(parent) {
         return parent[Object.keys(parent)[0]]
     }
 
-    this.formater = function(item){
+    this.formater = function(item) {
         let value = {};
         value.dt_duedate = new Date(item.dt_duedate);
         value.user = item.user[Object.keys(item.user)[0]];
@@ -164,4 +181,3 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
         return value;
     };
 }
-
