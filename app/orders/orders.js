@@ -16,6 +16,11 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, Aut
 
     AuthService.checkLogin();
 
+    this.filter = {
+        show: false,
+        value: ''
+    };
+
     this.selected = [];
 
     this.query = {
@@ -26,14 +31,14 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, Aut
 
     this.removeFilter = function() {
         this.filter.show = false;
-        this.query.filter = '';
+        this.filter.value = '';
     };
 
     // Miro el filtro!
     $scope.$watch(function() {
-        return this.query.filter;
+        return this.filter.value;
     }.bind(this), function() {
-        this.getItems(this.query.filter);
+        this.getItems(this.filter.value);
     }.bind(this));
 
     /**
@@ -50,9 +55,8 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, Aut
         this.promise = this.items.$loaded()
     };
 
-    this.formater = function(item){
+    this.formater = function(item) {
         let value = {};
-        value.dt_duedate = new Date(item.dt_duedate);
         value.user = item.user[Object.keys(item.user)[0]];
         value.recipient = item.recipient[Object.keys(item.recipient)[0]];
         value.product_id = Object.keys(item.product_type)[0];
@@ -63,16 +67,16 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, Aut
 
     this.edit = function() {
         $mdDialog.show({
-            template: '<order-form item="item" items="items"></order-form>',
-            locals : {
-                item: this.selected[0],
-                items: this.items
-            },
-            controller: function (item, items, $scope) {
-                $scope.item = item;
-                $scope.items = items;
-            }
-        })
+                template: '<order-form item="item" items="items"></order-form>',
+                locals: {
+                    item: this.selected[0],
+                    items: this.items
+                },
+                controller: function(item, items, $scope) {
+                    $scope.item = item;
+                    $scope.items = items;
+                }
+            })
 
             .then(() => {
                 this.getItems()

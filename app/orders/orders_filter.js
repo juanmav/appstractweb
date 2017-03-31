@@ -8,7 +8,7 @@ angular.module('myApp.orders')
                     let userEmail = item.user[Object.keys(item.user)[0]].email;
                     let recipientEmail = item.recipient[Object.keys(item.recipient)[0]].email;
                     let product = Object.keys(item.product_type)[0];
-                    return item.$id.search(filter) > -1 ||
+                    return item.$id.toLowerCase().search(filter) > -1 ||
                         celebrity.last_name.toLowerCase().search(filter) > -1 ||
                         item.status.toLowerCase().search(filter) > -1 ||
                         (userEmail ? userEmail.toLowerCase().search(filter) > -1 : false)||
