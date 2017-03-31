@@ -61,7 +61,7 @@
             md-select="item"
             md-select-id="id"
             md-auto-select
-            ng-repeat="item in $ctrl.items |  filter: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit | orderBy: $ctrl.query.order"
+            ng-repeat="item in $ctrl.items |  filterOrder: $ctrl.query.filter | limitTo: $ctrl.query.limit: ($ctrl.query.page - 1) * $ctrl.query.limit | orderBy: $ctrl.query.order"
         >
             <td md-cell>{{item.$id}}</td>
             <td md-cell>{{$ctrl.formater(item).celebrities.name}}</td>
