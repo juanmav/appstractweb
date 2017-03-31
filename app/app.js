@@ -7,7 +7,7 @@ angular.module('myApp', [
     'ngRoute',
     'ngMaterial',
     'md.data.table',
-
+    'ngLodash',
     // Views & components
     'myApp.version',
     'myApp.header',
