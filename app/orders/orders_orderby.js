@@ -1,14 +1,12 @@
 angular.module('myApp.orders')
     .filter( 'orderOrderBy', function(lodash) {
         return function(items, filter) {
-            console.log(filter);
 
             let reverse = filter.search('-') > -1;
             let ordered = items;
 
             if (filter.search('id') > -1){
                  ordered = lodash.sortBy(items, function (item) {
-                    console.log(item.$id.split('QWER')[1]);
                     return parseInt(item.$id.split('QWER')[1]);
                 });
             }
@@ -37,7 +35,6 @@ angular.module('myApp.orders')
 
             if (filter.search('product') > -1){
                 ordered = lodash.sortBy(items, function (item) {
-                    console.log(Object.keys(item.product_type)[0]);
                     return Object.keys(item.product_type)[0]
                 })
             }
