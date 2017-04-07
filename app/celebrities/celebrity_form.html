@@ -1,4 +1,4 @@
-<md-toolbar style="width: 60vw">
+<md-toolbar style="width: 70vw;">
     <div class="md-toolbar-tools">
         <h2>Celebrity {{$ctrl.item ? $ctrl.item.name : 'Creation' }}</h2>
         <span flex></span>
@@ -10,116 +10,128 @@
 
 <md-dialog-content>
     <form name="myform">
-        <md-content layout="column" class="md-padding" layout-align="space-between center">
-            <md-content layout="row" layout-align="space-between center">
-                <div layout="column" layout-align="center center">
-                    <md-progress-circular ng-if="$ctrl.uploadingProfilePic" md-mode="indeterminate"></md-progress-circular>
-                    <img ng-src="{{$ctrl.item.profile_pic}}" style="width: 100px;">
-                    <input class="ng-hide" id="profilepic" type="file" />
-                    <label for="profilepic" class="md-button md-raised md-primary">Select Profile Pic</label>
-                </div>
+        <md-content layout="column" class="md-padding">
+            <md-tabs>
+                <md-tab label="Images">
+                    <md-tab-body>
+                        <md-content class="md-padding" layout="row">
+                            <md-content flex layout="column">
+                                <md-input-container>
+                                    <p>Profile</p>
+                                    <input type="file" ngf-select="" ng-model="$ctrl.picFile" name="picFile" ngf-accept="'image/*'" required="">
+                                    <img ng-if="$ctrl.picFile" ngf-src="$ctrl.picFile" style="height: 80px;">
+                                    <img ng-if="!$ctrl.picFile" ngf-src="$ctrl.item.profile_pic" style="height: 80px;">
+                                </md-input-container>
+                            </md-content>
+                            <md-content flex layout="column">
+                                <md-input-container>
+                                    <p>Background</p>
+                                    <input type="file" ngf-select="" ng-model="$ctrl.backFile" name="backFile" ngf-accept="'image/*'" required="">
+                                    <img ng-if="$ctrl.backFile" ngf-src="$ctrl.backFile" style="height: 80px;">
+                                    <img ng-if="!$ctrl.backFile" ngf-src="$ctrl.item.gallery.IMG1.image_url" style="height: 80px;">
+                                </md-input-container>
+                            </md-content>
+                        </md-content>
+                    </md-tab-body>
+                </md-tab>
 
-                <div layout="column" layout-align="center center">
-                    <md-progress-circular ng-if="$ctrl.uploadingIMG1" md-mode="indeterminate"></md-progress-circular>
-                    <img ng-src="{{$ctrl.item.gallery.IMG1.image_url}}" style="width: 100px;">
-                    <input class="ng-hide" id="image1" type="file" />
-                    <label for="image1" class="md-button md-raised md-primary">Select Image 1</label>
-                </div>
-            </md-content>
-
-            <md-button ng-click="$ctrl.uploadImages()" class="md-raised md-warn"> Update Images</md-button>
-
-            <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
-                <md-input-container style="width: 45%">
-                    <label>First Name</label>
-                    <input aria-label="first_name" ng-model="$ctrl.item.first_name" required>
-                </md-input-container>
-                <md-input-container style="width: 45%">
-                    <label>Last Name</label>
-                    <input aria-label="last_name" ng-model="$ctrl.item.last_name" required>
-                </md-input-container>
-            </md-content>
-
-
-            <md-input-container  style="width: 90%;">
-                <label>Email</label>
-                <input aria-label="email" ng-model="$ctrl.item.email" required>
-            </md-input-container>
-
-            <md-input-container  style="width: 90%;">
-                <md-select aria-label="Type" ng-model="$ctrl.item.type" placeholder="Type" required>
-                    <md-option value="celebrity">Celebrity</md-option>
-                    <md-option value="futbol">Futbol</md-option>
-                    <md-option value="musica">Musica</md-option>
-                </md-select>
-            </md-input-container>
-
-            <div style="width: 90%">
-                <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
-                <br /><br />
-                <div ng-repeat="(key, product) in $ctrl.item.product_types">
-                    <md-checkbox aria-label="active" ng-model="product.active">
-                    </md-checkbox>
-
-                    <!-- Product Type-->
-                    <md-input-container style="width: 30%">
-                        <label>Product Type</label>
-                        <input aria-label="product_type" ng-model="product.product_type">
-                    </md-input-container>
-
-                    <md-input-container style="width: 50%">
-                        <label>Description</label>
-                        <input aria-label="descrip" ng-model="product.descrip">
-                    </md-input-container>
-
-                    <md-input-container style="width: 10%">
-                        <label>Price</label>
-                        <input aria-label="price" ng-model="product.price">
-                    </md-input-container>
+                <md-tab label="Personal Information">
+                    <md-tab-body>
+                        <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
+                            <md-input-container style="width: 45%">
+                                <label>First Name</label>
+                                <input aria-label="first_name" ng-model="$ctrl.item.first_name" required>
+                            </md-input-container>
+                            <md-input-container style="width: 45%">
+                                <label>Last Name</label>
+                                <input aria-label="last_name" ng-model="$ctrl.item.last_name" required>
+                            </md-input-container>
+                        </md-content>
 
 
-                    <!-- Product Subtype-->
-                    <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes" style="margin-left: 5%;">
-                        <md-checkbox aria-label="subtypes" ng-model="subtype.active">
-                        </md-checkbox>
-                        <md-input-container style="width: 15%">
-                            <label>Name</label>
-                            <input aria-label="name" ng-model="subtype.name">
-                        </md-input-container>
-                        <md-input-container style="width: 50%">
-                            <label>Description</label>
-                            <input aria-label="descrip" ng-model="subtype.descrip">
-                        </md-input-container>
-                        <md-input-container style="width: 10%">
-                            <label>Price</label>
-                            <input aria-label="price" ng-model="subtype.price">
+                        <md-input-container style="width: 90%;">
+                            <label>Email</label>
+                            <input aria-label="email" ng-model="$ctrl.item.email" required>
                         </md-input-container>
 
-                    </div>
-                </div>
-            </div>
+                        <md-input-container style="width: 90%;">
+                            <md-select aria-label="Type" ng-model="$ctrl.item.type" placeholder="Type" required>
+                                <md-option value="celebrity">Celebrity</md-option>
+                                <md-option value="futbol">Futbol</md-option>
+                                <md-option value="musica">Musica</md-option>
+                            </md-select>
+                        </md-input-container>
+                    </md-tab-body>
+                </md-tab>
 
-            <md-input-container  style="width: 90%">
-                <label>Bio</label>
-                <textarea ng-model="$ctrl.item.bio" rows="2"></textarea>
-            </md-input-container>
+                <md-tab label="Products">
+                    <md-tab-body>
+                        <div style="width: 90%">
+                            <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
+                            <br /><br />
+                            <div ng-repeat="(key, product) in $ctrl.item.product_types">
+                                <md-checkbox aria-label="active" ng-model="product.active">
+                                </md-checkbox>
 
+                                <!-- Product Type-->
+                                <md-input-container style="width: 30%">
+                                    <label>Product Type</label>
+                                    <input aria-label="product_type" ng-model="product.product_type">
+                                </md-input-container>
+
+                                <md-input-container style="width: 50%">
+                                    <label>Description</label>
+                                    <input aria-label="descrip" ng-model="product.descrip">
+                                </md-input-container>
+
+                                <md-input-container style="width: 10%">
+                                    <label>Price</label>
+                                    <input aria-label="price" ng-model="product.price">
+                                </md-input-container>
+
+                                <!-- Product Subtype-->
+                                <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes" style="margin-left: 5%;">
+                                    <md-checkbox aria-label="subtypes" ng-model="subtype.active">
+                                    </md-checkbox>
+                                    <md-input-container style="width: 15%">
+                                        <label>Name</label>
+                                        <input aria-label="name" ng-model="subtype.name">
+                                    </md-input-container>
+                                    <md-input-container style="width: 50%">
+                                        <label>Description</label>
+                                        <input aria-label="descrip" ng-model="subtype.descrip">
+                                    </md-input-container>
+                                    <md-input-container style="width: 10%">
+                                        <label>Price</label>
+                                        <input aria-label="price" ng-model="subtype.price">
+                                    </md-input-container>
+
+                                </div>
+                            </div>
+                        </div>
+                    </md-tab-body>
+                </md-tab>
+
+                <md-tab label="Biography">
+                    <md-tab-body>
+                        <md-input-container style="width: 90%">
+                            <label>Bio</label>
+                            <textarea ng-model="$ctrl.item.bio" rows="2"></textarea>
+                        </md-input-container>
+                    </md-tab-body>
+                </md-tab>
+
+            </md-tabs>
         </md-content>
     </form>
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
     <span flex></span>
-    <md-button
-            class="md-raised md-active md-primary"
-            ng-disabled="myform.$invalid" ng-click="$ctrl.save()"
-    >
+    <md-button class="md-raised md-active md-primary" ng-disabled="myform.$invalid" ng-click="$ctrl.save()">
         Save
     </md-button>
-    <md-button
-            class="md-raised md-active md-warn"
-            ng-click="$ctrl.cancel()"
-    >
+    <md-button class="md-raised md-active md-warn" ng-click="$ctrl.cancel()">
         Cancel
     </md-button>
 </md-dialog-actions>

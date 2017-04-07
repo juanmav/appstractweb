@@ -16,7 +16,8 @@
     "angular-material": "^1.1.3",
     "angular-sanitize": "^1.6.3",
     "angular-material-data-table": "^0.10.10",
-    "ng-lodash": "^0.5.0"
+    "ng-lodash": "^0.5.0",
+    "ng-file-upload": "^12.2.13"
   },
   "resolutions": {
     "angular-material": "^1.1.3",

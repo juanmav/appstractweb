@@ -8,6 +8,8 @@ angular.module('myApp', [
     'ngMaterial',
     'md.data.table',
     'ngLodash',
+    'ngFileUpload',
+
     // Views & components
     'myApp.version',
     'myApp.header',
