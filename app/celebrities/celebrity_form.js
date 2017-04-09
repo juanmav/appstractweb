@@ -88,20 +88,18 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $
                     "password": "nueva.123",
                     "displayName": this.item.first_name + ' ' + this.item.last_name
                 }).$promise
-                    .then(() => {
+                    .then(response => {//*/
                         // Grabo la celebrity
-                        this.items.$add(this.item).then((ref) => {
-                            console.log('Item agregado');
-                            firebase.database().ref().child("celebrities/" + ref.key).update({
-                                celebrity_id: ref.key
+                        this.item.celebrity_id = response.uid;
+                        this.items.$ref().child(response.uid).set(this.item)
+                            .then( () => {
+                                $rootScope.$broadcast('celebrityUpdated');
+                                $mdDialog.hide();
                             });
-                            $rootScope.$broadcast('celebrityUpdated');
-                            $mdDialog.hide();
-                        });
                     })
                     .catch(e => {
                         console.log(e);
-                    })
+                    });//*/
             }
         });
     };
