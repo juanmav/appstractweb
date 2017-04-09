@@ -20,7 +20,7 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
     console.log('Order form!');
 
     this.$onInit = function() {
-        this.item.dt_duedate = stringToDate(this.item.dt_duedate);
+        this.item.dt_duedate = new Date(this.item.dt_duedate);
     };
 
     AuthService.checkLogin();
@@ -123,25 +123,9 @@ function ordersFormCtrl($rootScope, $location, $mdDialog, firebase, $mdToast, Au
         $rootScope.$broadcast('orderUpdated');
     }
 
-    function dateToString(date) {
-        var mm = date.getMonth() + 1;
-        var dd = date.getDate();
-
-        return [(dd > 9 ? '' : '0') + dd,
-            (mm > 9 ? '' : '0') + mm,
-            date.getFullYear()
-        ].join('-');
-    };
-
-    function stringToDate(date) {
-        var parts = date.split('-');
-
-        return new Date(parts[0], parts[1], parts[2]);
-    };
-
     this.updateOrder = function() {
         // Get original order
-        this.item.dt_duedate = dateToString(this.item.dt_duedate);
+        this.item.dt_duedate = this.item.dt_duedate.toISOString();
         this.items.$save(this.item);
 
     };
