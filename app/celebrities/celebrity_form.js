@@ -11,7 +11,7 @@ angular.module('myApp.users')
 
 // https://material.angularjs.org/latest/demo/dialog
 // https://github.com/firebase/angularfire/issues/922
-function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObject, $rootScope, $scope) {
+function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $scope, UserService) {
     console.log('Celebrity form!');
 
     setTimeout(function() {
@@ -82,33 +82,33 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
             } else {
                 // Es una creacion
                 // Creo el usuario
-                /*UserService.save({
-                 "email" : this.item.email,
-                 "emailVerified" : true,
-                 "password": "nueva.123",
-                 "displayName": this.item.first_name + ' ' + this.item.last_name
-                 }).$promise
-                 .then(() => {*/
-                // Grabo la celebrity
-                this.items.$add(this.item).then((ref) => {
-                    console.log('Item agregado');
-                    firebase.database().ref().child("celebrities/" + ref.key).update({
-                        celebrity_id: ref.key
-                    });
-                    $rootScope.$broadcast('celebrityUpdated');
-                    $mdDialog.hide();
-                });
-                /*})
-                 .catch(e => {
-                 console.log(e);
-                 })*/
+                UserService.save({
+                    "email" : this.item.email,
+                    "emailVerified" : true,
+                    "password": "nueva.123",
+                    "displayName": this.item.first_name + ' ' + this.item.last_name
+                }).$promise
+                    .then(() => {
+                        // Grabo la celebrity
+                        this.items.$add(this.item).then((ref) => {
+                            console.log('Item agregado');
+                            firebase.database().ref().child("celebrities/" + ref.key).update({
+                                celebrity_id: ref.key
+                            });
+                            $rootScope.$broadcast('celebrityUpdated');
+                            $mdDialog.hide();
+                        });
+                    })
+                    .catch(e => {
+                        console.log(e);
+                    })
             }
         });
     };
 
     this.uploadImages = function() {
         let profilepicFile = this.picFile;
-        let backgroundFile = this.backFile;
+        let image1 = this.backFile;
         let image2 = this.backFile2;
 
         let promise1 = new Promise((resolve, reject) => {
@@ -139,9 +139,9 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
         });
 
         let promise2 = new Promise((resolve, reject) => {
-            if (backgroundFile) {
+            if (image1) {
 
-                let uploadTask2 = firebase.storage().ref().child(backgroundFile.name).put(backgroundFile);
+                let uploadTask2 = firebase.storage().ref().child(image1.name).put(image1);
                 uploadTask2.on('state_changed', (snapshot) => {
                     console.log(snapshot);
 
@@ -166,7 +166,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
         });
 
         let promise3 = new Promise((resolve, reject) => {
-            if (backgroundFile) {
+            if (image2) {
 
                 let uploadTask3 = firebase.storage().ref().child(image2.name).put(image2);
 

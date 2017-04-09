@@ -1,4 +1,4 @@
-<md-toolbar style="width: 70vw;">
+<md-toolbar>
     <div class="md-toolbar-tools">
         <h2>Celebrity {{$ctrl.item ? $ctrl.item.name : 'Creation' }}</h2>
         <span flex></span>
@@ -8,12 +8,12 @@
     </div>
 </md-toolbar>
 
-<md-dialog-content ng-style="{'visibility' : ($ctrl.saving ? 'hidden' : 'visible')}">
-    <form name="myform">
-        <md-content layout="column" class="md-padding">
-            <md-tabs >
-                <md-tab label="Images">
-                    <md-tab-body>
+<form name="myform" ng-style="{'visibility' : ($ctrl.saving ? 'hidden' : 'visible')}">
+    <md-content layout="column" class="md-padding">
+        <md-tabs md-dynamic-height>
+            <md-tab label="Images">
+                <md-tab-body>
+                    <div style="height: 330px; width: 800px;">
                         <md-content class="md-padding" layout="row">
                             <md-content layout="column" flex="50">
                                 <p>Profile *</p>
@@ -44,11 +44,13 @@
                                 <img ng-if="!$ctrl.backFile2 && $ctrl.item.gallery.IMG2.image_url" ngf-src="$ctrl.item.gallery.IMG2.image_url" style="height: 80px;">
                             </md-content>
                         </md-content>
-                    </md-tab-body>
-                </md-tab>
+                    </div>
+                </md-tab-body>
+            </md-tab>
 
-                <md-tab label="Personal Information">
-                    <md-tab-body>
+            <md-tab label="Personal Information">
+                <md-tab-body>
+                    <div style="height: 330px; width: 800px;">
                         <md-content layout="row" layout-align="space-between center" style="overflow-x: hidden">
                             <md-input-container style="width: 45%">
                                 <label>First Name</label>
@@ -73,72 +75,68 @@
                                 <md-option value="musica">Musica</md-option>
                             </md-select>
                         </md-input-container>
-                    </md-tab-body>
-                </md-tab>
 
-                <md-tab label="Products">
-                    <md-tab-body>
-                        <div style="width: 90%">
-                            <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
-                            <br /><br />
-                            <div ng-repeat="(key, product) in $ctrl.item.product_types">
-                                <md-checkbox aria-label="active" ng-model="product.active">
-                                </md-checkbox>
-
-                                <!-- Product Type-->
-                                <md-input-container style="width: 30%">
-                                    <label>Product Type</label>
-                                    <input aria-label="product_type" ng-model="product.product_type">
-                                </md-input-container>
-
-                                <md-input-container style="width: 50%">
-                                    <label>Description</label>
-                                    <input aria-label="descrip" ng-model="product.descrip">
-                                </md-input-container>
-
-                                <md-input-container style="width: 10%">
-                                    <label>Price</label>
-                                    <input aria-label="price" ng-model="product.price">
-                                </md-input-container>
-
-                                <!-- Product Subtype-->
-                                <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes" style="margin-left: 5%;">
-                                    <md-checkbox aria-label="subtypes" ng-model="subtype.active">
-                                    </md-checkbox>
-                                    <md-input-container style="width: 15%">
-                                        <label>Name</label>
-                                        <input aria-label="name" ng-model="subtype.name">
-                                    </md-input-container>
-                                    <md-input-container style="width: 50%">
-                                        <label>Description</label>
-                                        <input aria-label="descrip" ng-model="subtype.descrip">
-                                    </md-input-container>
-                                    <md-input-container style="width: 10%">
-                                        <label>Price</label>
-                                        <input aria-label="price" ng-model="subtype.price">
-                                    </md-input-container>
-
-                                </div>
-                            </div>
-                        </div>
-                    </md-tab-body>
-                </md-tab>
-
-                <md-tab label="Biography">
-                    <md-tab-body>
                         <md-input-container style="width: 90%">
                             <label>Bio</label>
                             <textarea ng-model="$ctrl.item.bio" rows="2"></textarea>
                         </md-input-container>
-                    </md-tab-body>
-                </md-tab>
+                    </div>
+                </md-tab-body>
+            </md-tab>
 
-            </md-tabs>
-        </md-content>
-    </form>
-</md-dialog-content>
+            <md-tab label="{{key}}" ng-repeat="(key, product) in $ctrl.item.product_types">
+                <md-tab-body>
+                    <div style="height: 330px; width: 800px;">
+                        <label style="font-size: 12px; color: rgba(0, 0, 0, 0.541176)">Products </label>
+                        <br /><br />
+                        <div >
+                            <md-checkbox aria-label="active" ng-model="product.active">
+                            </md-checkbox>
 
-<md-dialog-actions layout="row">
+                            <!-- Product Type-->
+                            <md-input-container style="width: 30%">
+                                <label>Product Type</label>
+                                <input aria-label="product_type" ng-model="product.product_type">
+                            </md-input-container>
+
+                            <md-input-container style="width: 50%">
+                                <label>Description</label>
+                                <input aria-label="descrip" ng-model="product.descrip">
+                            </md-input-container>
+
+                            <md-input-container style="width: 10%">
+                                <label>Price</label>
+                                <input aria-label="price" ng-model="product.price">
+                            </md-input-container>
+
+                            <!-- Product Subtype-->
+                            <div ng-repeat="subtype in product.subtypes" ng-if="product.subtypes" style="margin-left: 5%; height: 50px;">
+                                <md-checkbox aria-label="subtypes" ng-model="subtype.active">
+                                </md-checkbox>
+                                <md-input-container style="width: 15%">
+                                    <label>Name</label>
+                                    <input aria-label="name" ng-model="subtype.name">
+                                </md-input-container>
+                                <md-input-container style="width: 50%">
+                                    <label>Description</label>
+                                    <input aria-label="descrip" ng-model="subtype.descrip">
+                                </md-input-container>
+                                <md-input-container style="width: 10%">
+                                    <label>Price</label>
+                                    <input aria-label="price" ng-model="subtype.price">
+                                </md-input-container>
+
+                            </div>
+                        </div>
+                    </div>
+                </md-tab-body>
+            </md-tab>
+
+        </md-tabs>
+    </md-content>
+</form>
+
+<md-content layout="row">
     <md-content ng-show="$ctrl.saving" layout="column" flex="70">
         <md-progress-linear class="md-warn" md-mode="determinate" value="{{$ctrl.determinateValue}}"></md-progress-linear>
     </md-content>
@@ -153,4 +151,4 @@
             Cancel
         </md-button>
     </md-content>
-</md-dialog-actions>
+</md-content>
