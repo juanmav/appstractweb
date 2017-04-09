@@ -8,28 +8,40 @@
     </div>
 </md-toolbar>
 
-<md-dialog-content>
+<md-dialog-content ng-style="{'visibility' : ($ctrl.saving ? 'hidden' : 'visible')}">
     <form name="myform">
         <md-content layout="column" class="md-padding">
-            <md-tabs>
+            <md-tabs >
                 <md-tab label="Images">
                     <md-tab-body>
                         <md-content class="md-padding" layout="row">
-                            <md-content flex layout="column">
-                                <md-input-container>
-                                    <p>Profile</p>
-                                    <input type="file" ngf-select="" ng-model="$ctrl.picFile" name="picFile" ngf-accept="'image/*'" required="">
-                                    <img ng-if="$ctrl.picFile" ngf-src="$ctrl.picFile" style="height: 80px;">
-                                    <img ng-if="!$ctrl.picFile" ngf-src="$ctrl.item.profile_pic" style="height: 80px;">
-                                </md-input-container>
+                            <md-content layout="column" flex="50">
+                                <p>Profile *</p>
+                                <input type="file" ngf-select="" ng-model="$ctrl.picFile" name="picFile" ngf-accept="'image/*'">
                             </md-content>
-                            <md-content flex layout="column">
-                                <md-input-container>
-                                    <p>Background</p>
-                                    <input type="file" ngf-select="" ng-model="$ctrl.backFile" name="backFile" ngf-accept="'image/*'" required="">
-                                    <img ng-if="$ctrl.backFile" ngf-src="$ctrl.backFile" style="height: 80px;">
-                                    <img ng-if="!$ctrl.backFile" ngf-src="$ctrl.item.gallery.IMG1.image_url" style="height: 80px;">
-                                </md-input-container>
+                            <md-content layout="column" flex="20">
+                                <img ng-if="$ctrl.picFile" ngf-src="$ctrl.picFile" style="height: 80px;width: auto;">
+                                <img ng-if="!$ctrl.picFile && $ctrl.item.profile_pic" ngf-src="$ctrl.item.profile_pic" style="height: 80px;">
+                            </md-content>
+                        </md-content>
+                        <md-content class="md-padding" layout="row">
+                            <md-content layout="column" flex="50">
+                                <p>Image 1 *</p>
+                                <input type="file" ngf-select="" ng-model="$ctrl.backFile" name="backFile" ngf-accept="'image/*'">
+                            </md-content>
+                            <md-content layout="column" flex="20">
+                                <img ng-if="$ctrl.backFile" ngf-src="$ctrl.backFile" style="height: 80px;width: auto;">
+                                <img ng-if="!$ctrl.backFile && $ctrl.item.gallery.IMG1.image_url" ngf-src="$ctrl.item.gallery.IMG1.image_url" style="height: 80px;">
+                            </md-content>
+                        </md-content>
+                        <md-content class="md-padding" layout="row">
+                            <md-content layout="column" flex="50">
+                                <p>Image 2 *</p>
+                                <input type="file" ngf-select="" ng-model="$ctrl.backFile2" name="backFile2" ngf-accept="'image/*'">
+                            </md-content>
+                            <md-content layout="column" flex="20">
+                                <img ng-if="$ctrl.backFile2" ngf-src="$ctrl.backFile2" style="height: 80px;width: auto;">
+                                <img ng-if="!$ctrl.backFile2 && $ctrl.item.gallery.IMG2.image_url" ngf-src="$ctrl.item.gallery.IMG2.image_url" style="height: 80px;">
                             </md-content>
                         </md-content>
                     </md-tab-body>
@@ -127,11 +139,18 @@
 </md-dialog-content>
 
 <md-dialog-actions layout="row">
+    <md-content ng-show="$ctrl.saving" layout="column" flex="70">
+        <md-progress-linear class="md-warn" md-mode="determinate" value="{{$ctrl.determinateValue}}"></md-progress-linear>
+    </md-content>
     <span flex></span>
-    <md-button class="md-raised md-active md-primary" ng-disabled="myform.$invalid" ng-click="$ctrl.save()">
-        Save
-    </md-button>
-    <md-button class="md-raised md-active md-warn" ng-click="$ctrl.cancel()">
-        Cancel
-    </md-button>
+    <md-content layout="column" >
+        <md-button class="md-raised md-active md-primary" ng-disabled="myform.$invalid || $ctrl.saving" ng-click="$ctrl.save()">
+            Save
+        </md-button>
+    </md-content>
+    <md-content layout="column">
+        <md-button class="md-raised md-active md-warn" ng-click="$ctrl.cancel()">
+            Cancel
+        </md-button>
+    </md-content>
 </md-dialog-actions>

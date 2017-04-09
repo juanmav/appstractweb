@@ -21,6 +21,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
 
     this.$onInit = function() {
         // Si no tengo item es creacion
+        this.saving = false;
 
         if (!this.item) {
             this.item = {};
@@ -66,6 +67,8 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
 
     this.save = function() {
 
+        this.saving = true;
+
         console.log('vamos a salvar!');
 
         this.uploadImages().then(() => {
@@ -93,52 +96,90 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
     this.uploadImages = function() {
         let profilepicFile = this.picFile;
         let backgroundFile = this.backFile;
+        let image2 = this.backFile2;
+
         let promise1 = new Promise((resolve, reject) => {
             if (profilepicFile) {
                 let uploadTask = firebase.storage().ref().child(profilepicFile.name).put(profilepicFile);
-                this.uploadingProfilePic = true;
 
                 uploadTask.on('state_changed', (snapshot) => {
                     console.log(snapshot);
+
+                    this.image1Total = snapshot.totalBytes;
+                    this.image1Subtotal = snapshot.bytesTransferred;
+                    this.totalSubUpload = this.image1Subtotal + this.image2Subtotal + this.image3Subtotal;
+
+                    this.totalUpload = this.image1Total + this.image2Total + this.image3Total;
+                    this.determinateValue = (this.totalSubUpload / this.totalUpload) * 100;
                 }, (error) => {
                     console.error(error);
-                    this.uploadingProfilePic = false;
 
                     reject();
                 }, () => {
                     console.log(uploadTask.snapshot.downloadURL);
                     this.item.profile_pic = uploadTask.snapshot.downloadURL;
-                    this.uploadingProfilePic = false;
-                    $scope.$apply();
 
+                    $scope.$apply();
                     resolve();
                 });
-            }
+            } else { resolve(); }
         });
 
         let promise2 = new Promise((resolve, reject) => {
             if (backgroundFile) {
 
                 let uploadTask2 = firebase.storage().ref().child(backgroundFile.name).put(backgroundFile);
-                this.uploadingIMG1 = true;
                 uploadTask2.on('state_changed', (snapshot) => {
                     console.log(snapshot);
+
+                    this.image2Total = snapshot.totalBytes;
+                    this.image2Subtotal = snapshot.bytesTransferred;
+                    this.totalSubUpload = this.image1Subtotal + this.image2Subtotal + this.image3Subtotal;
+
+                    this.totalUpload = this.image1Total + this.image2Total + this.image3Total;
+                    this.determinateValue = (this.totalSubUpload / this.totalUpload) * 100;
                 }, (error) => {
                     console.error(error);
-                    this.uploadingIMG1 = false;
 
                     reject();
                 }, () => {
                     console.log(uploadTask2.snapshot.downloadURL);
                     this.item.gallery.IMG1.image_url = uploadTask2.snapshot.downloadURL;
-                    this.uploadingIMG1 = false;
-                    $scope.$apply();
 
+                    $scope.$apply();
                     resolve();
                 });
-            }
+            } else { resolve(); }
         });
 
-        return Promise.all([promise1, promise2]);
+        let promise3 = new Promise((resolve, reject) => {
+            if (backgroundFile) {
+
+                let uploadTask3 = firebase.storage().ref().child(image2.name).put(image2);
+
+                uploadTask3.on('state_changed', (snapshot) => {
+                    console.log(snapshot);
+
+                    this.image3Total = snapshot.totalBytes;
+                    this.image3Subtotal = snapshot.bytesTransferred;
+                    this.totalSubUpload = this.image1Subtotal + this.image2Subtotal + this.image3Subtotal;
+
+                    this.totalUpload = this.image1Total + this.image2Total + this.image3Total;
+                    this.determinateValue = (this.totalSubUpload / this.totalUpload) * 100;
+                }, (error) => {
+                    console.error(error);
+
+                    reject();
+                }, () => {
+                    console.log(uploadTask3.snapshot.downloadURL);
+                    this.item.gallery.IMG2.image_url = uploadTask3.snapshot.downloadURL;
+
+                    $scope.$apply();
+                    resolve();
+                });
+            } else { resolve(); }
+        });
+
+        return Promise.all([promise1, promise2, promise3]);
     }
 }

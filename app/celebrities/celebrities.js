@@ -81,7 +81,7 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthServic
     this.add = function () {
         console.log('Nuevo Implementame');
         $mdDialog.show({
-            template: '<celebrity-form items="items" id="8080"></celebrity-form>',
+            template: '<celebrity-form items="items" id="8080" ></celebrity-form>',
             locals : {
                 items: this.items
             },
