@@ -111,7 +111,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $
 
         let promise1 = new Promise((resolve, reject) => {
             if (profilepicFile) {
-                let uploadTask = firebase.storage().ref().child(profilepicFile.name).put(profilepicFile);
+                let uploadTask = firebase.storage().ref().child('celebrities/' + profilepicFile.name).put(profilepicFile);
 
                 uploadTask.on('state_changed', (snapshot) => {
                     console.log(snapshot);
@@ -139,7 +139,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $
         let promise2 = new Promise((resolve, reject) => {
             if (image1) {
 
-                let uploadTask2 = firebase.storage().ref().child(image1.name).put(image1);
+                let uploadTask2 = firebase.storage().ref().child('celebrities/' + image1.name).put(image1);
                 uploadTask2.on('state_changed', (snapshot) => {
                     console.log(snapshot);
 
@@ -166,7 +166,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $
         let promise3 = new Promise((resolve, reject) => {
             if (image2) {
 
-                let uploadTask3 = firebase.storage().ref().child(image2.name).put(image2);
+                let uploadTask3 = firebase.storage().ref().child('celebrities/' + image2.name).put(image2);
 
                 uploadTask3.on('state_changed', (snapshot) => {
                     console.log(snapshot);
