@@ -81,6 +81,15 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
                 });
             } else {
                 // Es una creacion
+                // Creo el usuario
+                /*UserService.save({
+                 "email" : this.item.email,
+                 "emailVerified" : true,
+                 "password": "nueva.123",
+                 "displayName": this.item.first_name + ' ' + this.item.last_name
+                 }).$promise
+                 .then(() => {*/
+                // Grabo la celebrity
                 this.items.$add(this.item).then((ref) => {
                     console.log('Item agregado');
                     firebase.database().ref().child("celebrities/" + ref.key).update({
@@ -89,6 +98,10 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseArray, $firebaseObjec
                     $rootScope.$broadcast('celebrityUpdated');
                     $mdDialog.hide();
                 });
+                /*})
+                 .catch(e => {
+                 console.log(e);
+                 })*/
             }
         });
     };

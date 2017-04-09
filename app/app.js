@@ -5,6 +5,7 @@ angular.module('myApp', [
 
     // External dependencies
     'ngRoute',
+    'ngResource',
     'ngMaterial',
     'md.data.table',
     'ngLodash',
