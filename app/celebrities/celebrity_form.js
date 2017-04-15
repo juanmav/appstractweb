@@ -17,6 +17,7 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $
     setTimeout(function() {
         console.log('Para arriba!');
         document.getElementById('8080').parentElement.scrollTop = 0;
+        document.getElementById('8080').style.overflowY = "hidden";
     }, 500);
 
     this.$onInit = function() {
