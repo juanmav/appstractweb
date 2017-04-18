@@ -23,7 +23,7 @@ function usersCtrl($scope, $location, firebase, $firebaseArray, $mdDialog, AuthS
 
     this.query = {
         order: 'name',
-        limit: 5,
+        limit: 15,
         page: 1
     };
 

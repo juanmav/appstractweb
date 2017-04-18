@@ -25,7 +25,7 @@ function ordersCtrl($rootScope, $scope, firebase, $firebaseArray, $mdDialog, Aut
 
     this.query = {
         order: 'status',
-        limit: 5,
+        limit: 15,
         page: 1
     };
 

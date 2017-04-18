@@ -20,7 +20,7 @@ function celebritiesCtrl($scope, firebase, $firebaseArray, $mdDialog, AuthServic
 
     this.query = {
         order: 'name',
-        limit: 5,
+        limit: 15,
         page: 1
     };
 
