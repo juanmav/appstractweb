@@ -10,7 +10,7 @@
 
 <form name="myform" ng-style="{'visibility' : ($ctrl.saving ? 'hidden' : 'visible')}">
     <md-content layout="column" class="md-padding">
-        <md-tabs md-dynamic-height style="margin-top:5%;margin-bottom: 5%;">
+        <md-tabs md-dynamic-height style="margin-top:5%;">
             <md-tab label="Images">
                 <md-tab-body>
                     <div style="height: 320px; width: 800px; overflow-y: scroll;">
@@ -21,21 +21,21 @@
                                        ngf-accept="'image/*'">
                             </md-content>
                             <md-content layout="column" flex="20">
-                                <img ng-if="$ctrl.picFile" ngf-src="$ctrl.picFile" class="img-responsive">
+                                <img ng-if="$ctrl.picFile" ngf-src="$ctrl.picFile" class="img-responsive" ng-click="$ctrl.preview($ctrl.picFile)">
                                 <img ng-if="!$ctrl.picFile && $ctrl.item.profile_pic"
-                                     ngf-src="$ctrl.item.profile_pic" class="img-responsive">
+                                     ngf-src="$ctrl.item.profile_pic" class="img-responsive" ng-click="$ctrl.preview($ctrl.item.profile_pic)">
                             </md-content>
                         </md-content>
                         <md-content class="md-padding" layout="row">
                             <md-content layout="column" flex="50">
-                                <p>Image 1 *</p>
-                                <input type="file" ngf-select="" ng-model="$ctrl.backFile" name="backFile"
-                                       ngf-accept="'image/*'">
+                                    <p>Image 1 *</p>
+                                    <input type="file" ngf-select="" ng-model="$ctrl.backFile" name="backFile"
+                                           ngf-accept="'image/*'">
                             </md-content>
                             <md-content layout="column" flex="20">
-                                <img ng-if="$ctrl.backFile" ngf-src="$ctrl.backFile" class="img-responsive">
+                                <img ng-if="$ctrl.backFile" ngf-src="$ctrl.backFile" class="img-responsive" ng-click="$ctrl.preview($ctrl.backFile)">
                                 <img ng-if="!$ctrl.backFile && $ctrl.item.gallery.IMG1.image_url"
-                                     ngf-src="$ctrl.item.gallery.IMG1.image_url" class="img-responsive">
+                                     ngf-src="$ctrl.item.gallery.IMG1.image_url" class="img-responsive" ng-click="$ctrl.preview($ctrl.item.gallery.IMG1.image_url)">
                             </md-content>
                         </md-content>
                         <md-content class="md-padding" layout="row">
@@ -45,9 +45,9 @@
                                        ngf-accept="'image/*'">
                             </md-content>
                             <md-content layout="column" flex="20">
-                                <img ng-if="$ctrl.backFile2" ngf-src="$ctrl.backFile2" class="img-responsive">
+                                <img ng-if="$ctrl.backFile2" ngf-src="$ctrl.backFile2" class="img-responsive" ng-click="$ctrl.preview($ctrl.backFile2)">
                                 <img ng-if="!$ctrl.backFile2 && $ctrl.item.gallery.IMG2.image_url"
-                                     ngf-src="$ctrl.item.gallery.IMG2.image_url" class="img-responsive">
+                                     ngf-src="$ctrl.item.gallery.IMG2.image_url" class="img-responsive" ng-click="$ctrl.preview($ctrl.item.gallery.IMG2.image_url)">
                             </md-content>
                         </md-content>
                     </div>
@@ -143,20 +143,18 @@
     </md-content>
 </form>
 
-<md-content layout="row" flex layout-align="center end" style="position:absolute;bottom:0;">
-    <md-content ng-show="$ctrl.saving" layout="column" flex="70">
-        <md-progress-linear class="md-warn" md-mode="determinate"
-                            value="{{$ctrl.determinateValue}}"></md-progress-linear>
-    </md-content>
-    <md-content layout="column" flex="15">
-        <md-button class="md-raised md-active md-primary" ng-disabled="myform.$invalid || $ctrl.saving"
-                   ng-click="$ctrl.save()">
+<div layout="row">
+    <div ng-show="$ctrl.saving" flex="70">
+        <md-progress-linear class="md-warn" md-mode="determinate" value="{{$ctrl.determinateValue}}"></md-progress-linear>
+    </div>
+    <div ng-show="!$ctrl.saving" flex="70">
+    </div>
+    <div flex="30">
+        <md-button class="md-raised md-active md-primary" ng-disabled="myform.$invalid || $ctrl.saving" ng-click="$ctrl.save()">
             Save
         </md-button>
-    </md-content>
-    <md-content layout="column" flex="15">
         <md-button class="md-raised md-active md-warn" ng-click="$ctrl.cancel()">
             Cancel
         </md-button>
-    </md-content>
-</md-content>
+    </div>
+</div>

@@ -193,5 +193,13 @@ function celebritiesFormCtrl($mdDialog, firebase, $firebaseObject, $rootScope, $
         });
 
         return Promise.all([promise1, promise2, promise3]);
-    }
+    };
+
+    this.preview = function(src) {
+        var firebase = 'firebasestorage.googleapis.com';
+
+        if(src.indexOf(firebase) > -1 ) {
+            window.open(src);
+        }
+    };
 }
