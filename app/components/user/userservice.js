@@ -2,9 +2,11 @@ var app = angular.module('myApp');
 
 app.service('UserService', function($resource, AuthService, $http) {
 
-    let url = 'https://celebstore-api.herokuapp.com/api/v1/admin/users';
+    // La url viene desde el config en el index.html.
+    let url = config.myUserApi;
 
-    console.log('Instacion Servicio');
+    console.log(url);
+    console.log('Instancio el Servicio');
     console.log(AuthService.token);
 
     $http.defaults.headers.common.Authorization = AuthService.token;
